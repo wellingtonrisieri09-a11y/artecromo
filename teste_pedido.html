@@ -1,0 +1,192 @@
+<title>Teste — Pedido Arte Cromo (imagens no WhatsApp)</title>
+<style>
+:root{
+  --mag:#ec0a8c; --cyan:#00b4d8; --amar:#ffd400; --ink:#12151a;
+  --bg:#0d1015; --panel:#171c23; --panel2:#1e242d; --bord:rgba(255,255,255,.09);
+  --txt:#eef2f5; --txt2:#9aa6b1; --verde:#25d366; --verde-d:#1da851;
+}
+:root[data-theme="light"]{
+  --bg:#eef1f5; --panel:#ffffff; --panel2:#f4f6f9; --bord:rgba(0,0,0,.10);
+  --txt:#12151a; --txt2:#5a6672;
+}
+@media (prefers-color-scheme:light){
+  :root{ --bg:#eef1f5; --panel:#ffffff; --panel2:#f4f6f9; --bord:rgba(0,0,0,.10); --txt:#12151a; --txt2:#5a6672; }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1015; --panel:#171c23; --panel2:#1e242d; --bord:rgba(255,255,255,.09); --txt:#eef2f5; --txt2:#9aa6b1;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg); color:var(--txt); min-height:100vh; line-height:1.5;
+  padding:18px 14px 40px; max-width:560px; margin:0 auto;
+}
+header{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;margin-bottom:18px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;letter-spacing:.02em}
+.logo .b{width:12px;height:12px;border-radius:3px}
+.logo .c1{background:var(--cyan)} .logo .c2{background:var(--mag)} .logo .c3{background:var(--amar)}
+.tagline{font-size:13px;color:var(--txt2);letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.aviso{
+  background:linear-gradient(135deg,rgba(236,10,140,.14),rgba(0,180,216,.12));
+  border:1px solid var(--bord); border-radius:14px; padding:13px 15px; font-size:13.5px;
+  color:var(--txt); margin-bottom:20px; line-height:1.55;
+}
+.aviso b{color:var(--mag)}
+h2{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--txt2);font-weight:700;margin:6px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.card{
+  position:relative;border-radius:14px;overflow:hidden;cursor:pointer;
+  border:2px solid var(--bord); background:var(--panel); aspect-ratio:4/5;
+  display:flex;align-items:center;justify-content:center;transition:transform .12s,border-color .12s;
+}
+.card:active{transform:scale(.96)}
+.card.sel{border-color:var(--mag);box-shadow:0 0 0 3px rgba(236,10,140,.25)}
+.card canvas{width:100%;height:100%;object-fit:cover;display:block}
+.card .num{position:absolute;left:7px;top:6px;background:rgba(0,0,0,.55);color:#fff;
+  font-size:11px;font-weight:700;padding:2px 7px;border-radius:20px;backdrop-filter:blur(4px)}
+.card .chk{position:absolute;right:7px;top:6px;width:24px;height:24px;border-radius:50%;
+  background:var(--mag);color:#fff;display:none;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.card.sel .chk{display:flex}
+.bar{
+  position:sticky;bottom:12px;margin-top:22px;background:var(--panel);border:1px solid var(--bord);
+  border-radius:18px;padding:14px;box-shadow:0 12px 34px rgba(0,0,0,.4);
+}
+.campo{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.campo label{font-size:12px;color:var(--txt2);font-weight:600}
+.campo input{
+  background:var(--panel2);border:1px solid var(--bord);border-radius:10px;padding:11px 13px;
+  color:var(--txt);font-size:15px;outline:none;
+}
+.campo input:focus{border-color:var(--cyan)}
+.resumo{font-size:13px;color:var(--txt2);margin-bottom:10px}
+.resumo b{color:var(--txt)}
+.enviar{
+  width:100%;background:var(--verde);color:#fff;border:none;border-radius:12px;
+  padding:15px;font-size:16px;font-weight:800;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;gap:8px;transition:background .12s;
+}
+.enviar:active{background:var(--verde-d)}
+.enviar:disabled{opacity:.6;cursor:default}
+.status{font-size:12.5px;color:var(--txt2);text-align:center;margin-top:9px;min-height:16px;line-height:1.5}
+.status.err{color:#ff7a90}
+.status.ok{color:var(--verde)}
+footer{text-align:center;color:var(--txt2);font-size:12px;margin-top:26px;line-height:1.6}
+</style>
+
+<header>
+  <div class="logo"><span class="b c1"></span><span class="b c2"></span><span class="b c3"></span> ARTE CROMO ESTAMPAS</div>
+  <div class="tagline">Teste do pedido</div>
+</header>
+
+<div class="aviso">
+  Isto é um <b>teste rápido</b> com imagens de exemplo (quadros numerados). Toque em algumas, preencha e envie:
+  as <b>fotos chegam anexadas</b> no WhatsApp junto com o pedido — é assim que vai funcionar no site de verdade.
+</div>
+
+<h2>1 · Escolha as imagens</h2>
+<div class="grid" id="grid"></div>
+
+<div class="bar">
+  <h2 style="margin-top:0">2 · Seus dados e envio</h2>
+  <div class="campo"><label>Seu nome</label><input id="nome" placeholder="Ex.: Wellington" autocomplete="name"></div>
+  <div class="campo"><label>Seu WhatsApp</label><input id="fone" placeholder="(11) 99999-9999" inputmode="tel"></div>
+  <div class="resumo" id="resumo">Nenhuma imagem selecionada.</div>
+  <button class="enviar" id="btn" onclick="enviar()">📲 Enviar Pedido pelo WhatsApp</button>
+  <div class="status" id="status"></div>
+</div>
+
+<footer>
+  Se o seu aparelho não permitir anexar fotos direto (ex.: alguns navegadores de PC),<br>
+  o teste avisa e abre o WhatsApp só com o texto — no celular, as fotos vão juntas.
+</footer>
+
+<script>
+// ── Estampas de exemplo (desenhadas na hora, sem precisar de arquivos) ──
+const CORES=[["#ec0a8c","#7a0046"],["#00b4d8","#023047"],["#ffd400","#8a6d00"],
+             ["#8338ec","#2b0a52"],["#25d366","#0b5e2c"],["#ff6b35","#7a2600"]];
+const NOMES=["Vitral Sacro","Abstrato Ouro","Flora Tropical","Geométrico Roxo","Verde Sereno","Pôr do Sol"];
+const PRODUTOS=CORES.map((c,i)=>({n:String(i+1).padStart(4,"0"),nome:NOMES[i],c1:c[0],c2:c[1]}));
+const carrinho=new Set();
+
+function desenhar(cv,p,w,h){
+  const x=cv.getContext("2d"); cv.width=w; cv.height=h;
+  const g=x.createLinearGradient(0,0,w,h); g.addColorStop(0,p.c1); g.addColorStop(1,p.c2);
+  x.fillStyle=g; x.fillRect(0,0,w,h);
+  // moldura
+  x.strokeStyle="rgba(255,255,255,.35)"; x.lineWidth=Math.max(2,w*0.02);
+  x.strokeRect(w*0.06,h*0.06,w*0.88,h*0.88);
+  // número grande
+  x.fillStyle="rgba(255,255,255,.95)"; x.textAlign="center"; x.textBaseline="middle";
+  x.font="800 "+(w*0.34)+"px -apple-system,Arial";
+  x.fillText(p.n,w/2,h*0.46);
+  x.font="700 "+(w*0.075)+"px -apple-system,Arial";
+  x.fillText(p.nome.toUpperCase(),w/2,h*0.66);
+  x.font="600 "+(w*0.055)+"px -apple-system,Arial";
+  x.fillStyle="rgba(255,255,255,.8)";
+  x.fillText("ARTE CROMO",w/2,h*0.8);
+}
+function render(){
+  const g=document.getElementById("grid"); g.innerHTML="";
+  PRODUTOS.forEach((p,i)=>{
+    const d=document.createElement("div");
+    d.className="card"+(carrinho.has(i)?" sel":"");
+    d.onclick=()=>toggle(i);
+    const cv=document.createElement("canvas"); desenhar(cv,p,240,300);
+    d.appendChild(cv);
+    const num=document.createElement("div"); num.className="num"; num.textContent="Nº "+p.n; d.appendChild(num);
+    const chk=document.createElement("div"); chk.className="chk"; chk.textContent="✓"; d.appendChild(chk);
+    g.appendChild(d);
+  });
+  atualizarResumo();
+}
+function toggle(i){ carrinho.has(i)?carrinho.delete(i):carrinho.add(i); render(); }
+function atualizarResumo(){
+  const r=document.getElementById("resumo");
+  const n=carrinho.size;
+  r.innerHTML=n?`<b>${n}</b> ${n===1?"imagem selecionada":"imagens selecionadas"}.`:"Nenhuma imagem selecionada.";
+}
+function fileDe(p){
+  return new Promise(res=>{
+    const cv=document.createElement("canvas"); desenhar(cv,p,800,1000);
+    cv.toBlob(b=>res(new File([b],`ArteCromo_Imagem_${p.n}.jpg`,{type:"image/jpeg"})),"image/jpeg",0.9);
+  });
+}
+async function enviar(){
+  const nome=document.getElementById("nome").value.trim();
+  const fone=document.getElementById("fone").value.trim();
+  const st=document.getElementById("status"); st.className="status"; st.textContent="";
+  if(!nome){ st.className="status err"; st.textContent="Informe seu nome."; return; }
+  if(!fone){ st.className="status err"; st.textContent="Informe seu WhatsApp."; return; }
+  if(!carrinho.size){ st.className="status err"; st.textContent="Toque em ao menos uma imagem."; return; }
+
+  const sel=[...carrinho].sort((a,b)=>a-b).map(i=>PRODUTOS[i]);
+  let msg="*PEDIDO (TESTE) — Arte Cromo Estampas*\n\n";
+  msg+=`👤 *Cliente:* ${nome}\n📱 *WhatsApp:* ${fone}\n\n*Imagens:*\n`;
+  sel.forEach((p,i)=>{ msg+=`\n${i+1}. Imagem ${p.n} — ${p.nome}\n   📐 50x70 cm × 1 un\n`; });
+  msg+="\n_Teste do catálogo Arte Cromo_";
+
+  const btn=document.getElementById("btn");
+  btn.disabled=true; const t=btn.textContent; btn.textContent="⏳ Preparando imagens…";
+  try{
+    const files=await Promise.all(sel.map(fileDe));
+    if(navigator.canShare && navigator.canShare({files})){
+      try{
+        const dados=navigator.canShare({files,text:msg})?{files,text:msg}:{files};
+        await navigator.share(dados);
+        st.className="status ok"; st.textContent="✅ Menu de compartilhar aberto — escolha o WhatsApp e o contato Arte Cromo.";
+        return;
+      }catch(err){
+        if(err&&err.name==="AbortError"){ st.textContent="Envio cancelado."; return; }
+        // cai no fallback abaixo
+      }
+    }
+    // Fallback: sem anexo de foto neste aparelho → WhatsApp só com texto
+    st.className="status err";
+    st.textContent="Este navegador não permite anexar as fotos. No celular funciona — abrindo o WhatsApp só com o texto.";
+    window.open("https://wa.me/5511987916193?text="+encodeURIComponent(msg),"_blank");
+  } finally {
+    btn.disabled=false; btn.textContent=t;
+  }
+}
+render();
+</script>

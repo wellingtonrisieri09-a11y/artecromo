@@ -967,6 +967,7 @@ function abrirPedido(){
   if(n) document.getElementById('cliente-nome').value=n;
   if(f) document.getElementById('cliente-fone').value=f;
   document.getElementById("modal-pedido").classList.add("aberto");
+  prefetchImagensPedido(); // baixa as imagens em segundo plano p/ mandar anexadas
 }
 function fecharPedido(){ document.getElementById("modal-pedido").classList.remove("aberto"); }
 
@@ -1022,7 +1023,53 @@ function toggleTamanho(id,tam){
 }
 function setQtd(id,tam,val){ const item=carrinho.find(i=>i.id===id); if(item&&item.tamanhos[tam]!==undefined){ item.tamanhos[tam]=Math.max(1,parseInt(val)||1); salvarCarrinho(); } }
 function ajustarQtd(id,tam,delta){ const item=carrinho.find(i=>i.id===id); if(!item||item.tamanhos[tam]===undefined) return; item.tamanhos[tam]=Math.max(1,(item.tamanhos[tam]||1)+delta); salvarCarrinho(); const el=document.getElementById("item-"+id); if(el) el.outerHTML=renderItemPedido(item); }
-function enviarWhatsApp(){
+// ── Cache das imagens do pedido (baixadas p/ anexar no WhatsApp) ──
+const _imgFiles = new Map(); // id -> Promise<File|null>
+function _numSeq(item){ return String(PRODUTOS.findIndex(p=>p.id===item.id)+1).padStart(4,"0"); }
+function _prefetchImg(item){
+  if(_imgFiles.has(item.id)) return _imgFiles.get(item.id);
+  const prod=PRODUTOS.find(p=>p.id===item.id)||item;
+  const url=urlAbsoluta(prod.img_web||prod.img||item.img||"");
+  const nome=`ArteCromo_Imagem_${_numSeq(item)}.jpg`;
+  const pr=(async()=>{
+    if(!url) return null;
+    try{
+      const r=await fetch(url,{cache:"force-cache"});
+      if(!r.ok) return null;
+      const b=await r.blob();
+      return new File([b],nome,{type:b.type||"image/jpeg"});
+    }catch(e){ return null; }
+  })();
+  _imgFiles.set(item.id,pr);
+  return pr;
+}
+function prefetchImagensPedido(){
+  if(!('canShare' in navigator)) return; // PC/desktop cai no wa.me com link
+  carrinho.forEach(item=>_prefetchImg(item));
+}
+async function enviarComImagens(texto){
+  try{
+    if(!navigator.canShare) return false;
+    const files=[];
+    for(const item of carrinho){ const f=await _prefetchImg(item); if(f) files.push(f); }
+    if(!files.length) return false;
+    if(!navigator.canShare({files})) return false;
+    const dados=navigator.canShare({files,text:texto})?{files,text:texto}:{files};
+    await navigator.share(dados);
+    return true;
+  }catch(err){
+    if(err&&err.name==="AbortError") return true; // cliente cancelou o menu — não reenviar
+    return false;
+  }
+}
+function _rastrearPedido(){
+  try {
+    if(typeof fbq !== 'undefined') fbq('track','Lead',{content_name:'Pedido WhatsApp',num_items:carrinho.length});
+    if(typeof gtag !== 'undefined') gtag('event','conversion',{send_to:'GOOGLE_ADS_ID/CONVERSION_LABEL',value:1,currency:'BRL'});
+    if(typeof ttq !== 'undefined') ttq.track('Contact',{content_name:'Pedido WhatsApp'});
+  } catch(e){}
+}
+async function enviarWhatsApp(){
   const nome=document.getElementById("cliente-nome").value.trim();
   const fone=document.getElementById("cliente-fone").value.trim();
   const obs=document.getElementById("cliente-obs").value.trim();
@@ -1031,26 +1078,37 @@ function enviarWhatsApp(){
   if(!carrinho.length){ alert("Seu pedido está vazio."); return; }
   if(carrinho.some(i=>Object.keys(i.tamanhos).length===0)){ alert("Selecione ao menos um tamanho para cada imagem.\n\nDica: use o botão ⚡ 'Aplicar tamanho a todos' para agilizar!"); return; }
   localStorage.setItem('arte_nome',nome); localStorage.setItem('arte_fone',fone);
-  let msg="*PEDIDO — Arte Cromo Estampas*\n\n";
-  msg+=`👤 *Cliente:* ${nome}\n📱 *WhatsApp:* ${fone}\n\n*Imagens:*\n`;
-  carrinho.forEach((item,i)=>{
-    const numSeq=String(PRODUTOS.findIndex(p=>p.id===item.id)+1).padStart(4,"0");
-    msg+=`\n${i+1}. Imagem ${numSeq} — ${item.nome}\n   📂 ${item.cat}\n`;
-    Object.entries(item.tamanhos).forEach(([tam,qtd])=>{ msg+=`   📐 ${tam} cm × ${qtd} un\n`; });
-  });
-  if(obs) msg+=`\n📝 *Obs:* ${obs}`;
-  msg+="\n\n_Catálogo Digital Arte Cromo Estampas_";
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
 
-  // ── Rastreamento de conversão (clique no WhatsApp = pedido enviado) ──
-  try {
-    // Facebook Pixel
-    if(typeof fbq !== 'undefined') fbq('track','Lead',{content_name:'Pedido WhatsApp',num_items:carrinho.length});
-    // Google Ads
-    if(typeof gtag !== 'undefined') gtag('event','conversion',{send_to:'GOOGLE_ADS_ID/CONVERSION_LABEL',value:1,currency:'BRL'});
-    // TikTok
-    if(typeof ttq !== 'undefined') ttq.track('Contact',{content_name:'Pedido WhatsApp'});
-  } catch(e){}
+  // Cabeçalho + itens (sem link — usado como legenda quando as imagens vão anexadas)
+  const cab=`👤 *Cliente:* ${nome}\n📱 *WhatsApp:* ${fone}\n\n*Imagens:*\n`;
+  const rodape=(obs?`\n📝 *Obs:* ${obs}`:"")+"\n\n_Catálogo Digital Arte Cromo Estampas_";
+  let base="*PEDIDO — Arte Cromo Estampas*\n\n"+cab;
+  let comLinks="*PEDIDO — Arte Cromo Estampas*\n\n"+cab;
+  carrinho.forEach((item,i)=>{
+    const prod=PRODUTOS.find(p=>p.id===item.id)||item;
+    const numSeq=_numSeq(item);
+    let linha=`\n${i+1}. Imagem ${numSeq} — ${item.nome}\n   📂 ${item.cat}\n`;
+    Object.entries(item.tamanhos).forEach(([tam,qtd])=>{ linha+=`   📐 ${tam} cm × ${qtd} un\n`; });
+    base+=linha; comLinks+=linha;
+    const urlImg=urlAbsoluta(prod.img_web||prod.img||item.img||"");
+    if(urlImg) comLinks+=`   🖼️ Ver imagem: ${urlImg}\n`;
+  });
+  const msgBase=base+rodape;
+  const msgLinks=comLinks+rodape;
+
+  const btn=document.querySelector(".btn-whatsapp");
+  const txtBtn=btn?btn.textContent:"";
+  if(btn){ btn.disabled=true; btn.textContent="⏳ Preparando imagens…"; }
+  try{
+    // 1) Celular: envia as IMAGENS anexadas junto com o pedido
+    const okImgs=await enviarComImagens(msgBase);
+    if(okImgs){ _rastrearPedido(); fecharPedido(); return; }
+    // 2) PC / sem suporte: WhatsApp com o pedido + link direto de cada imagem
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msgLinks)}`,"_blank");
+    _rastrearPedido();
+  } finally {
+    if(btn){ btn.disabled=false; btn.textContent=txtBtn; }
+  }
 }
 
 function abrirZoom(idx,filtrados){ zoomFiltrados=filtrados; zoomIdx=idx; mostrarZoom(); }
