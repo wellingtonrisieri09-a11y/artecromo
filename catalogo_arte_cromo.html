@@ -10008,9 +10008,12 @@ function enviarWhatsApp(){
   let msg="*PEDIDO — Arte Cromo Estampas*\n\n";
   msg+=`👤 *Cliente:* ${nome}\n📱 *WhatsApp:* ${fone}\n\n*Imagens:*\n`;
   carrinho.forEach((item,i)=>{
+    const prod=PRODUTOS.find(p=>p.id===item.id)||item;
     const numSeq=String(PRODUTOS.findIndex(p=>p.id===item.id)+1).padStart(4,"0");
     msg+=`\n${i+1}. Imagem ${numSeq} — ${item.nome}\n   📂 ${item.cat}\n`;
     Object.entries(item.tamanhos).forEach(([tam,qtd])=>{ msg+=`   📐 ${tam} cm × ${qtd} un\n`; });
+    const urlImg=urlAbsoluta(prod.img_web||prod.img||item.img||"");
+    if(urlImg) msg+=`   🖼️ Ver imagem: ${urlImg}\n`;
   });
   if(obs) msg+=`\n📝 *Obs:* ${obs}`;
   msg+="\n\n_Catálogo Digital Arte Cromo Estampas_";
