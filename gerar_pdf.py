@@ -18,7 +18,7 @@ BANCO    = Path(os.environ.get('ARTECROMO_BANCO', r"E:\Banco de Imagens"))
 SAIDA    = BANCO / "catalogo_arte_cromo.pdf"
 JSON     = BANCO / "lista_imagens.json"
 
-WHATSAPP = "(11) 94785-2675 / (11) 98791-6193"
+WHATSAPP = "(11) 98791-6193"
 WEBSITE  = "www.artecromoestampas.com.br"
 EMAIL    = "arte.cromo@yahoo.com.br"
 
@@ -62,6 +62,18 @@ CINZA1  = (30,  30,  30)
 CINZA2  = (80,  80,  80)
 CINZA3  = (150, 150, 150)
 CINZA4  = (220, 220, 220)
+# Cores da marca (CMYK — igual o site)
+CIANO   = (0,   180, 230)
+MAGENTA = (236, 10,  140)
+AMARELO = (255, 207, 0)
+CIANO_E = (0,   125, 170)
+
+def faixa_cmyk(pdf, x, y, w, h):
+    """Faixa tricolor ciano/magenta/amarelo (a mesma do site)."""
+    seg = w / 3.0
+    for i, cor in enumerate([CIANO, MAGENTA, AMARELO]):
+        pdf.set_fill_color(*cor)
+        pdf.rect(x + i*seg, y, seg, h, 'F')
 
 # ── Categoria atual da página ─────────────────────────
 _cat_atual = ['']
@@ -69,41 +81,35 @@ _cat_atual = ['']
 
 class CatalogoPDF(FPDF):
     def header(self):
-        # Faixa preta no topo
-        self.set_fill_color(*CINZA1)
+        if self.page_no() == 1:
+            return  # capa não leva cabeçalho
+        # Faixa branca no topo com o logo oficial
+        self.set_fill_color(*BRANCO)
         self.rect(0, 0, PG_W, HEADER_H, 'F')
-        self.set_draw_color(*VERDE)
-        self.set_line_width(0.7)
-        self.line(0, HEADER_H, PG_W, HEADER_H)
+        logo = str(BANCO / 'logo.png')
+        if os.path.exists(logo):
+            self.image(logo, MARGEM, 2.5, 0, HEADER_H - 5)
 
-        # Nome Arte Cromo
-        self.set_font('Arial', 'B', 15)
-        self.set_text_color(*BRANCO)
-        self.set_xy(MARGEM, 3)
-        self.cell(65, 7, 'Arte Cromo', border=0)
-        self.set_font('Arial', '', 9)
-        self.set_text_color(*CINZA3)
-        self.set_xy(MARGEM + 49, 5)
-        self.cell(25, 5, 'ESTAMPAS', border=0)
-
-        # Contato
+        # Contato (texto escuro, à direita)
+        self.set_font('Arial', 'B', 8)
+        self.set_text_color(*CINZA2)
+        self.set_xy(105, 3.5)
+        self.cell(PG_W - 105 - MARGEM, 4.5, 'WhatsApp: ' + WHATSAPP, border=0, align='R')
         self.set_font('Arial', '', 8)
         self.set_text_color(*CINZA3)
-        self.set_xy(110, 3)
-        self.cell(PG_W - 110 - MARGEM, 5, 'WhatsApp: ' + WHATSAPP, border=0, align='R')
-        self.set_xy(110, 10)
-        self.cell(PG_W - 110 - MARGEM, 5, EMAIL, border=0, align='R')
-
-        # Número da página
+        self.set_xy(105, 8)
+        self.cell(PG_W - 105 - MARGEM, 4.5, EMAIL, border=0, align='R')
         self.set_font('Arial', '', 7)
-        self.set_text_color(*CINZA3)
-        self.set_xy(MARGEM, 13)
-        self.cell(PG_W - 2*MARGEM, 5, f'Pagina {self.page_no()}', border=0, align='R')
+        self.set_xy(105, 12.5)
+        self.cell(PG_W - 105 - MARGEM, 4.5, f'Pagina {self.page_no()}', border=0, align='R')
 
-        # Nome da categoria no topo do grid (abaixo do header)
+        # Faixa CMYK na base do cabeçalho
+        faixa_cmyk(self, 0, HEADER_H - 1.6, PG_W, 1.6)
+
+        # Nome da categoria no topo do grid (faixa ciano)
         cat = _cat_atual[0]
         if cat:
-            self.set_fill_color(*VERDE)
+            self.set_fill_color(*CIANO)
             self.rect(0, HEADER_H, PG_W, CAT_H, 'F')
             self.set_font('Arial', 'B', 11)
             self.set_text_color(*PRETO)
@@ -111,16 +117,16 @@ class CatalogoPDF(FPDF):
             self.cell(PG_W - 2*MARGEM, CAT_H - 4, cat.upper(), border=0, align='C')
 
     def footer(self):
+        if self.page_no() == 1:
+            return  # capa não leva rodapé
         self.set_y(-FOOTER_H)
         self.set_fill_color(*CINZA1)
         self.rect(0, PG_H - FOOTER_H, PG_W, FOOTER_H, 'F')
-        self.set_draw_color(*VERDE)
-        self.set_line_width(0.4)
-        self.line(0, PG_H - FOOTER_H, PG_W, PG_H - FOOTER_H)
+        faixa_cmyk(self, 0, PG_H - FOOTER_H, PG_W, 1.3)
         self.set_font('Arial', '', 8)
         self.set_text_color(*CINZA3)
-        self.set_y(PG_H - FOOTER_H + 1.5)
-        self.cell(PG_W, 5, WEBSITE + '  |  ' + WHATSAPP, border=0, align='C')
+        self.set_y(PG_H - FOOTER_H + 3)
+        self.cell(PG_W, 5, WEBSITE + '   |   WhatsApp ' + WHATSAPP, border=0, align='C')
 
     def card(self, p, col, linha):
         x = MARGEM + col * CELL_W + 1.5
@@ -185,7 +191,7 @@ class CatalogoPDF(FPDF):
         # Número em destaque — ABAIXO da imagem, dentro da faixa reservada
         num = str(p.get('seq', p['id'])).zfill(4)
         self.set_font('Arial', 'B', 10)
-        self.set_text_color(*VERDE_E)
+        self.set_text_color(*CIANO_E)
         self.set_xy(x, sep_y + 1)
         self.cell(card_w, NUM_H - 3, num, border=0, align='C')
 
@@ -219,78 +225,53 @@ pdf.add_font('Arial', 'I', FONT_I)
 _cat_atual[0] = ''
 pdf.add_page()
 
-# Fundo preto total
+# Fundo escuro total
 pdf.set_fill_color(*CINZA1)
 pdf.rect(0, 0, PG_W, PG_H, 'F')
 
-# ── Logo central (réplica do catálogo) ───────────────
-logo_y = 90   # posição vertical do logo
+# ── Painel branco com o logo oficial (padrão do site) ──
+panel_w, panel_h = 140, 118
+panel_x = (PG_W - panel_w) / 2
+panel_y = 44
+pdf.set_fill_color(*BRANCO)
+pdf.rect(panel_x, panel_y, panel_w, panel_h, 'F')
+logo_size = 96
+logo_path = str(BANCO / 'logo.png')
+if os.path.exists(logo_path):
+    pdf.image(logo_path, (PG_W - logo_size) / 2, panel_y + (panel_h - logo_size) / 2, logo_size, logo_size)
 
-# Barras CMYK — esquerda: cinza, ciano, amarelo, magenta (de cima p/ baixo)
-cmyk_esq = [(136,136,136), (0,188,212), (245,230,66), (233,30,140)]
-cmyk_dir = [(233,30,140), (245,230,66), (0,188,212), (136,136,136)]
-bar_w, bar_h, bar_gap = 8, 8, 2
-bars_total_h = len(cmyk_esq) * bar_h + (len(cmyk_esq)-1) * bar_gap
+# Faixa CMYK sob o painel
+faixa_cmyk(pdf, panel_x, panel_y + panel_h, panel_w, 5)
 
-# Calcular posição X para centralizar [barras | texto | barras]
-texto_w = 68
-espaco  = 6
-total_w = bar_w + espaco + texto_w + espaco + bar_w
-start_x = (PG_W - total_w) / 2
+# ── Informações ────────────────────────────────────────
+info_y = panel_y + panel_h + 22
+pdf.set_font('Arial', 'B', 14)
+pdf.set_text_color(*CIANO)
+pdf.set_xy(0, info_y)
+pdf.cell(PG_W, 8, f'CATALOGO DIGITAL  -  {len(lista)} imagens', border=0, align='C')
 
-# Barras esquerda
-for i, cor in enumerate(cmyk_esq):
-    pdf.set_fill_color(*cor)
-    pdf.rect(start_x, logo_y + i*(bar_h+bar_gap), bar_w, bar_h, 'F')
+pdf.set_font('Arial', '', 10)
+pdf.set_text_color(*CINZA3)
+pdf.set_xy(0, info_y + 10)
+pdf.cell(PG_W, 6, f'{len(cats)} categorias', border=0, align='C')
 
-# Barras direita
-for i, cor in enumerate(cmyk_dir):
-    pdf.set_fill_color(*cor)
-    pdf.rect(start_x + bar_w + espaco + texto_w + espaco, logo_y + i*(bar_h+bar_gap), bar_w, bar_h, 'F')
-
-# Texto "Arte Cromo"
-pdf.set_font('Arial', 'B', 26)
+pdf.set_font('Arial', 'B', 10)
 pdf.set_text_color(*BRANCO)
-pdf.set_xy(start_x + bar_w + espaco, logo_y - 2)
-pdf.cell(texto_w, 18, 'Arte Cromo', border=0, align='C')
-
-# "ESTAMPAS"
-pdf.set_font('Arial', '', 9)
+pdf.set_xy(0, info_y + 24)
+pdf.cell(PG_W, 6, 'Para fazer seu pedido:', border=0, align='C')
+pdf.set_font('Arial', '', 10)
 pdf.set_text_color(*CINZA3)
-pdf.set_xy(start_x + bar_w + espaco, logo_y + 16)
-pdf.cell(texto_w, 6, 'E S T A M P A S', border=0, align='C')
+pdf.set_xy(0, info_y + 31)
+pdf.cell(PG_W, 6, 'informe o numero da imagem pelo WhatsApp', border=0, align='C')
 
-# Slogan
-pdf.set_font('Arial', '', 8)
-pdf.set_text_color(68, 68, 68)
-pdf.set_xy(0, logo_y + bars_total_h + 8)
-pdf.cell(PG_W, 6, 'Solucoes Graficas  .  Catalogo Digital', border=0, align='C')
-
-# Linha verde separadora
-pdf.set_draw_color(*VERDE)
-pdf.set_line_width(1.2)
-pdf.line(PG_W/2 - 55, logo_y + bars_total_h + 18, PG_W/2 + 55, logo_y + bars_total_h + 18)
-
-# Informações abaixo
 pdf.set_font('Arial', 'B', 12)
-pdf.set_text_color(*VERDE)
-pdf.set_xy(0, logo_y + bars_total_h + 24)
-pdf.cell(PG_W, 8, f'Catalogo Digital  -  {len(lista)} imagens', border=0, align='C')
-
+pdf.set_text_color(*CIANO)
+pdf.set_xy(0, info_y + 45)
+pdf.cell(PG_W, 6, 'WhatsApp ' + WHATSAPP, border=0, align='C')
 pdf.set_font('Arial', '', 9)
 pdf.set_text_color(*CINZA3)
-for txt, dy in [
-    (f'{len(cats)} categorias', 36),
-    ('', 46),
-    ('Para fazer seu pedido:', 56),
-    ('informe o numero da imagem pelo WhatsApp', 64),
-    ('', 74),
-    ('WhatsApp: ' + WHATSAPP, 82),
-    (WEBSITE, 90),
-    (EMAIL, 98),
-]:
-    pdf.set_xy(0, logo_y + bars_total_h + dy - 18)
-    pdf.cell(PG_W, 7, txt, border=0, align='C')
+pdf.set_xy(0, info_y + 53)
+pdf.cell(PG_W, 6, EMAIL + '   |   ' + WEBSITE, border=0, align='C')
 
 # ── Páginas de imagens ────────────────────────────────
 POR_PAG = COLS * LINHAS  # 16
