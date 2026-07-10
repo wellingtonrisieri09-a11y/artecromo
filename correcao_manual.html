@@ -15,14 +15,14 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .cat-list{flex:1;overflow-y:auto;}
 .cat-btn{width:100%;text-align:left;padding:10px 14px;background:none;border:none;border-left:3px solid transparent;color:#777;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:6px;transition:all 0.15s;}
 .cat-btn:hover{background:#1e1e1e;color:#ccc;}
-.cat-btn.ativo{background:#1a2a1e;border-left-color:#25d366;color:#fff;font-weight:bold;}
+.cat-btn.ativo{background:#062530;border-left-color:#00b4e6;color:#fff;font-weight:bold;}
 .cat-btn.exc{color:#e74c3c;}
 .cat-btn.exc.ativo{background:#2a1212;border-left-color:#e74c3c;}
 .cat-btn.vazia{opacity:0.45;font-style:italic;}
 .cat-btn .cnt{font-size:11px;background:#1e1e1e;padding:2px 8px;border-radius:999px;color:#555;font-family:monospace;flex-shrink:0;}
-.cat-btn.ativo .cnt{background:#0d2318;color:#25d366;}
+.cat-btn.ativo .cnt{background:#04222b;color:#00b4e6;}
 .sidebar-footer{padding:10px 12px;border-top:1px solid #2a2a2a;display:flex;flex-direction:column;gap:6px;}
-.btn-green{width:100%;padding:9px;background:#25d366;color:#000;border:none;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer;}
+.btn-green{width:100%;padding:9px;background:#00b4e6;color:#000;border:none;border-radius:8px;font-size:12px;font-weight:bold;cursor:pointer;}
 .btn-green:hover{background:#1ebe5d;}
 .btn-gray{width:100%;padding:8px;background:#1e1e1e;color:#888;border:1px solid #2a2a2a;border-radius:8px;font-size:12px;cursor:pointer;text-align:center;text-decoration:none;display:block;}
 .btn-gray:hover{background:#252525;}
@@ -43,7 +43,7 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 /* ── Cards ── */
 .card{background:#252525;border:2px solid #2e2e2e;border-radius:10px;overflow:hidden;cursor:pointer;transition:all 0.12s;position:relative;user-select:none;}
 .card:hover{border-color:#555;transform:translateY(-2px);}
-.card.sm{border-color:#25d366;box-shadow:0 0 0 2px rgba(37,211,102,0.2);}
+.card.sm{border-color:#00b4e6;box-shadow:0 0 0 2px rgba(0,180,230,0.2);}
 .card.se{border-color:#e74c3c;box-shadow:0 0 0 2px rgba(231,76,60,0.2);}
 .card-thumb{width:100%;aspect-ratio:1;background:#1e1e1e;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .card-thumb img{width:100%;height:100%;object-fit:contain;background:#1e1e1e;transition:opacity 0.2s;}
@@ -52,7 +52,7 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .card-num{font-size:13px;font-family:monospace;font-weight:bold;color:#fff;}
 .card-nome{font-size:10px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
 .card-badge{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;font-size:12px;font-weight:bold;display:none;align-items:center;justify-content:center;}
-.card.sm .card-badge{display:flex;background:#25d366;color:#000;}
+.card.sm .card-badge{display:flex;background:#00b4e6;color:#000;}
 .card.se .card-badge{display:flex;background:#e74c3c;color:#fff;}
 .zoom-btn{position:absolute;top:5px;left:5px;display:none;background:rgba(0,0,0,0.7);border:none;border-radius:5px;color:#fff;font-size:13px;cursor:pointer;padding:2px 5px;line-height:1.4;z-index:2;}
 .card:hover .zoom-btn{display:block;}
@@ -75,22 +75,22 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .row1{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap;}
 .row2{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .sel-info{font-size:13px;color:#888;flex:1;}
-.cv{color:#25d366;font-weight:bold;}
+.cv{color:#00b4e6;font-weight:bold;}
 .cr{color:#e74c3c;font-weight:bold;}
 .modos{display:flex;gap:5px;}
 .mbtn{padding:7px 12px;font-size:12px;font-weight:bold;border-radius:7px;border:2px solid #333;background:#1e1e1e;color:#666;cursor:pointer;transition:all 0.15s;}
-.mv-on{border-color:#25d366!important;background:#0d2318!important;color:#25d366!important;}
+.mv-on{border-color:#00b4e6!important;background:#04222b!important;color:#00b4e6!important;}
 .ex-on{border-color:#e74c3c!important;background:#2a1212!important;color:#e74c3c!important;}
 .btn-lim{padding:7px 12px;background:#252525;color:#777;border:none;border-radius:7px;font-size:12px;cursor:pointer;}
 .dest-wrap{display:flex;align-items:center;gap:7px;flex:1;min-width:200px;}
 .dest-wrap label{font-size:12px;color:#777;white-space:nowrap;}
 .dest-wrap select{background:#252525;border:1px solid #333;color:#fff;border-radius:6px;padding:7px 10px;font-size:13px;outline:none;flex:1;cursor:pointer;}
-.btn-mv{padding:9px 16px;font-size:13px;font-weight:bold;border:none;border-radius:8px;background:#25d366;color:#000;cursor:pointer;}
+.btn-mv{padding:9px 16px;font-size:13px;font-weight:bold;border:none;border-radius:8px;background:#00b4e6;color:#000;cursor:pointer;}
 .btn-mv:disabled,.btn-ex:disabled{background:#252525;color:#555;cursor:not-allowed;}
 .btn-ex{padding:9px 16px;font-size:13px;font-weight:bold;border:none;border-radius:8px;background:#e74c3c;color:#fff;cursor:pointer;}
 /* ── Toast ── */
 .toast{position:fixed;bottom:16px;right:16px;border-radius:10px;padding:13px 16px;font-size:13px;max-width:360px;display:none;z-index:9999;line-height:1.7;white-space:pre-line;}
-.tv{background:#0d2318;border:1px solid #25d366;color:#25d366;}
+.tv{background:#04222b;border:1px solid #00b4e6;color:#00b4e6;}
 .tr{background:#2a1212;border:1px solid #e74c3c;color:#e74c3c;}
 .toast.show{display:block;}
 /* ── Modais ── */
@@ -101,7 +101,7 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .modal-box p{font-size:14px;color:#aaa;margin-bottom:20px;line-height:1.7;}
 .modal-btns{display:flex;gap:8px;}
 .modal-btns button{flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;}
-.mc-mv{background:#25d366;color:#000;}
+.mc-mv{background:#00b4e6;color:#000;}
 .mc-ex{background:#e74c3c;color:#fff;}
 .mc-ca{background:#252525;color:#aaa;}
 .topbar-search{padding:6px 10px;background:#252525;border:1px solid #333;border-radius:7px;color:#fff;font-size:13px;outline:none;width:200px;display:none;}
@@ -119,14 +119,14 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .zoom-nav button:hover{background:#333;}
 .zoom-close{position:absolute;top:16px;right:22px;background:none;border:none;color:#aaa;font-size:28px;cursor:pointer;line-height:1;}
 .zoom-close:hover{color:#fff;}
-.rbtn.rbtn-rename{background:#2a3a2a;color:#25d366;}
+.rbtn.rbtn-rename{background:#123443;color:#00b4e6;}
 .rbtn.rbtn-rename:hover{background:#1a4a1a;}
 .rename-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:900;align-items:center;justify-content:center;}
 .rename-modal.open{display:flex;}
 .rename-box{background:#1e1e1e;border:1px solid #333;border-radius:12px;padding:22px;width:90%;max-width:380px;}
 .rename-box h3{font-size:15px;margin-bottom:12px;}
 .rename-box input{width:100%;padding:9px 11px;background:#252525;border:1px solid #333;border-radius:7px;color:#fff;font-size:14px;outline:none;margin-bottom:14px;}
-.rename-box input:focus{border-color:#25d366;}
+.rename-box input:focus{border-color:#00b4e6;}
 .rename-btns{display:flex;gap:8px;}
 .rename-btns button{flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;}
 .rot-lote{display:none;gap:5px;}
@@ -136,7 +136,7 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .prog-bar-wrap{display:none;flex-direction:column;gap:4px;margin-top:6px;}
 .prog-bar-wrap.visivel{display:flex;}
 .prog-bar-track{background:#1e1e1e;border-radius:6px;overflow:hidden;height:7px;}
-.prog-bar-fill{height:7px;background:#25d366;width:0%;transition:width 0.4s;}
+.prog-bar-fill{height:7px;background:#00b4e6;width:0%;transition:width 0.4s;}
 .prog-bar-txt{font-size:11px;color:#888;text-align:center;}
 .loading-msg{text-align:center;padding:3rem;color:#555;font-size:14px;}
 /* ── Modal Configurações ── */
@@ -151,15 +151,15 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 .cfg-field{margin-bottom:12px;}
 .cfg-field label{display:block;font-size:12px;color:#888;margin-bottom:5px;}
 .cfg-field input{width:100%;padding:9px 11px;background:#252525;border:1px solid #333;border-radius:7px;color:#fff;font-size:14px;outline:none;}
-.cfg-field input:focus{border-color:#25d366;}
+.cfg-field input:focus{border-color:#00b4e6;}
 .cfg-field input::placeholder{color:#444;}
 .cfg-btns{display:flex;gap:8px;margin-top:20px;}
 .cfg-btns button{flex:1;padding:11px;border:none;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;}
-.cfg-save{background:#25d366;color:#000;}
+.cfg-save{background:#00b4e6;color:#000;}
 .cfg-save:hover{background:#1ebe5d;}
 .cfg-cancel{background:#252525;color:#aaa;}
 .cfg-msg{font-size:13px;text-align:center;padding:8px;border-radius:7px;margin-top:10px;display:none;}
-.cfg-msg.ok{background:#0d2318;border:1px solid #25d366;color:#25d366;}
+.cfg-msg.ok{background:#04222b;border:1px solid #00b4e6;color:#00b4e6;}
 .cfg-msg.err{background:#2a1212;border:1px solid #e74c3c;color:#e74c3c;}
 /* ═══ MOBILE ═══════════════════════════════════════════ */
 @media (max-width:768px){
@@ -195,6 +195,10 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
   .sidebar-footer{padding:8px 10px;gap:5px;}
   .btn-green,.btn-gray,.btn-upload,.btn-lanc{padding:10px;font-size:13px;}
 }
+/* ═══ IDENTIDADE ARTE CROMO (logo no painel) ═══ */
+.admin-logo{background:#fff;border-radius:12px;padding:12px;text-align:center;margin-bottom:12px;box-shadow:0 4px 14px rgba(0,0,0,.35);}
+.admin-logo img{height:72px;width:auto;display:inline-block;}
+.admin-cmyk{height:5px;border-radius:3px;margin-bottom:14px;background:linear-gradient(90deg,#00b4e6 0 33.33%,#ec0a8c 33.33% 66.66%,#ffcf00 66.66% 100%);}
 </style>
 </head>
 <body>
@@ -207,7 +211,9 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="fecharSidebar()"></div>
 <div class="sidebar" id="sidebar">
   <div class="sidebar-topo">
-    <h2>Correcao Manual</h2>
+    <div class="admin-logo"><img src="/logo.png" alt="Arte Cromo"></div>
+    <div class="admin-cmyk"></div>
+    <h2>Painel Administrativo</h2>
     <p>Selecione, mova ou exclua imagens</p>
   </div>
   <div class="cat-list" id="cat-list"></div>
@@ -217,11 +223,11 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
     <input type="file" id="input-upload" multiple accept="image/*" style="display:none" onchange="uploadImagens(this.files)">
     <div id="upload-progress" style="display:none;padding:6px 0;">
       <div style="background:#1e1e1e;border-radius:6px;overflow:hidden;height:8px;">
-        <div id="upload-bar" style="height:8px;background:#25d366;width:0%;transition:width 0.3s;"></div>
+        <div id="upload-bar" style="height:8px;background:#00b4e6;width:0%;transition:width 0.3s;"></div>
       </div>
       <div id="upload-status" style="font-size:11px;color:#888;margin-top:4px;text-align:center;"></div>
     </div>
-    <button class="btn-gray" onclick="criarCategoria()" style="color:#25d366;border-color:#1a3a1a;">➕ Nova Categoria</button>
+    <button class="btn-gray" onclick="criarCategoria()" style="color:#00b4e6;border-color:#083445;">➕ Nova Categoria</button>
     <button class="btn-green" onclick="gerarAtualizar()">Atualizar Catalogo</button>
     <div class="prog-bar-wrap" id="prog-atualizar">
       <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-fill"></div></div>
@@ -284,7 +290,7 @@ body{font-family:Arial,sans-serif;background:#1a1a1a;color:#fff;display:flex;hei
     <h3>✏️ Renomear Imagem</h3>
     <input type="text" id="rename-input" placeholder="Novo nome (sem extensão)" onkeydown="if(event.key==='Enter')confirmarRenomear();if(event.key==='Escape')fecharRenomear();">
     <div class="rename-btns">
-      <button style="background:#25d366;color:#000;" onclick="confirmarRenomear()">Renomear</button>
+      <button style="background:#00b4e6;color:#000;" onclick="confirmarRenomear()">Renomear</button>
       <button style="background:#252525;color:#aaa;" onclick="fecharRenomear()">Cancelar</button>
     </div>
   </div>
@@ -9344,7 +9350,7 @@ function carregarProdutos(callback) {
       document.getElementById('grid-area').innerHTML =
         '<div class="instrucao"><b>Como usar:</b><br>' +
         '1. Clique em uma categoria na lateral<br>' +
-        '2. Escolha o modo: <b style="color:#25d366">Mover</b> ou <b style="color:#e74c3c">Excluir</b><br>' +
+        '2. Escolha o modo: <b style="color:#00b4e6">Mover</b> ou <b style="color:#e74c3c">Excluir</b><br>' +
         '3. Clique nas imagens para selecionar (<b>Shift+clique</b> = lote, <b>Ctrl+A</b> = todos)<br>' +
         '4. Clique no botão Mover ou Excluir para confirmar</div>';
       if (callback) callback();
