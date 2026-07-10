@@ -27,3 +27,6 @@ nul
 
 # logo oficial (exceção)
 !logo.png
+instagram_config.json
+instagram_postados.json
+_instagram/
