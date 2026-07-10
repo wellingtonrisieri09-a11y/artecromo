@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arte Cromo — Acesso</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:Arial,sans-serif;
+  background:#0f0f0f;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+/* Fundo com grid sutil */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(37,211,102,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,211,102,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+.card{
+  background:#161616;
+  border:1px solid #222;
+  border-radius:20px;
+  padding:48px 40px;
+  width:100%;
+  max-width:420px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.6);
+  position:relative;
+}
+
+/* Logo */
+.logo{text-align:center;margin-bottom:36px;}
+.cmyk{display:flex;justify-content:center;gap:5px;margin-bottom:14px;}
+.cmyk span{
+  width:12px;height:12px;border-radius:3px;display:block;
+  animation:pulsar 2s ease-in-out infinite;
+}
+.cmyk span:nth-child(1){background:#888;animation-delay:0s;}
+.cmyk span:nth-child(2){background:#00bcd4;animation-delay:0.2s;}
+.cmyk span:nth-child(3){background:#f5e642;animation-delay:0.4s;}
+.cmyk span:nth-child(4){background:#e91e8c;animation-delay:0.6s;}
+@keyframes pulsar{
+  0%,100%{opacity:0.6;transform:scale(1);}
+  50%{opacity:1;transform:scale(1.2);}
+}
+.logo-titulo{
+  font-family:Georgia,serif;
+  font-size:28px;
+  font-style:italic;
+  color:#fff;
+  line-height:1.1;
+}
+.logo-sub{
+  display:block;
+  font-size:11px;
+  letter-spacing:5px;
+  font-style:normal;
+  font-family:Arial,sans-serif;
+  color:#555;
+  margin-top:4px;
+}
+.logo-desc{
+  font-size:12px;
+  color:#444;
+  margin-top:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* Divisor */
+.divider{
+  border:none;
+  border-top:1px solid #222;
+  margin:28px 0;
+}
+
+/* Formulário */
+.campo{margin-bottom:18px;}
+.campo label{
+  display:block;
+  font-size:12px;
+  color:#666;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+.campo input{
+  width:100%;
+  padding:13px 16px;
+  background:#1e1e1e;
+  border:1.5px solid #2a2a2a;
+  border-radius:10px;
+  color:#fff;
+  font-size:15px;
+  outline:none;
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+.campo input:focus{
+  border-color:#25d366;
+  box-shadow:0 0 0 3px rgba(37,211,102,0.1);
+}
+.campo input::placeholder{color:#333;}
+
+/* Erro */
+.erro{
+  display:none;
+  background:#2a1212;
+  border:1px solid #e74c3c;
+  color:#e74c3c;
+  border-radius:8px;
+  padding:11px 14px;
+  font-size:13px;
+  margin-bottom:16px;
+  text-align:center;
+}
+.erro.visivel{display:block;}
+
+/* Botão */
+.btn-entrar{
+  width:100%;
+  padding:14px;
+  background:#25d366;
+  color:#000;
+  border:none;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:all 0.2s;
+  letter-spacing:0.5px;
+  margin-top:4px;
+}
+.btn-entrar:hover{background:#1ebe5d;transform:translateY(-1px);}
+.btn-entrar:active{transform:translateY(0);}
+.btn-entrar:disabled{background:#1e1e1e;color:#444;cursor:not-allowed;transform:none;}
+
+/* Loading spinner */
+.spinner{
+  display:inline-block;
+  width:16px;height:16px;
+  border:2px solid rgba(0,0,0,0.3);
+  border-top-color:#000;
+  border-radius:50%;
+  animation:spin 0.7s linear infinite;
+  vertical-align:middle;
+  margin-right:6px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Rodapé */
+.footer{
+  text-align:center;
+  margin-top:28px;
+  font-size:11px;
+  color:#333;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="cmyk">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="logo-titulo">
+      Arte Cromo
+      <span class="logo-sub">ESTAMPAS</span>
+    </div>
+    <div class="logo-desc">Ferramenta de Correção</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="erro" id="erro"></div>
+
+  <form onsubmit="entrar(event)">
+    <div class="campo">
+      <label>Usuário</label>
+      <input type="text" id="usuario" placeholder="Digite seu usuário" autocomplete="username" required>
+    </div>
+    <div class="campo">
+      <label>Senha</label>
+      <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+    </div>
+    <button class="btn-entrar" id="btn-entrar" type="submit">Entrar</button>
+  </form>
+
+  <div class="footer">Arte Cromo Estampas © 2026</div>
+</div>
+
+<script>
+// Se já tem token válido, redireciona direto
+var token = localStorage.getItem('ac_token');
+if (token) {
+  // Verifica se ainda é válido
+  window.location.href = 'correcao_manual.html';
+}
+
+function entrar(e) {
+  e.preventDefault();
+  var usuario = document.getElementById('usuario').value.trim();
+  var senha    = document.getElementById('senha').value;
+  var btn      = document.getElementById('btn-entrar');
+  var erro     = document.getElementById('erro');
+
+  erro.className = 'erro';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Entrando...';
+
+  fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ usuario: usuario, senha: senha })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.ok) {
+      localStorage.setItem('ac_token', res.token);
+      localStorage.setItem('ac_usuario', usuario);
+      btn.innerHTML = '✓ Acessando...';
+      setTimeout(function() {
+        window.location.href = 'correcao_manual.html';
+      }, 600);
+    } else {
+      erro.textContent = res.erro || 'Usuário ou senha incorretos';
+      erro.className = 'erro visivel';
+      btn.disabled = false;
+      btn.innerHTML = 'Entrar';
+      document.getElementById('senha').value = '';
+      document.getElementById('senha').focus();
+    }
+  })
+  .catch(function() {
+    erro.textContent = 'Servidor não encontrado. Verifique se o servidor está rodando.';
+    erro.className = 'erro visivel';
+    btn.disabled = false;
+    btn.innerHTML = 'Entrar';
+  });
+}
+
+// Enter no campo de usuário vai para senha
+document.getElementById('usuario').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('senha').focus();
+  }
+});
+</script>
+</body>
+</html>

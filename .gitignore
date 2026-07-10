@@ -1,0 +1,26 @@
+# ── Imagens (banco de imagens — grande demais pro GitHub) ──
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tif
+*.tiff
+# manter a imagem social do site (pequena)
+!og-image.jpg
+
+# ── Gerados / pesados ──
+*.pdf
+*.tar.gz
+*.zip
+
+# ── Ambiente Python ──
+venv/
+__pycache__/
+*.pyc
+
+# ── Backups e lixo ──
+*.bak
+*.bak.*
+nul

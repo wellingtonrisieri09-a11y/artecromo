@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://artecromoestampas.com.br/sitemap.xml
+
+# Bloquear ferramentas de scraping
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
