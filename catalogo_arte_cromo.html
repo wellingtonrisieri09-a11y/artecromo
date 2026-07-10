@@ -10053,32 +10053,30 @@ async function enviarWhatsApp(){
   if(carrinho.some(i=>Object.keys(i.tamanhos).length===0)){ alert("Selecione ao menos um tamanho para cada imagem.\n\nDica: use o botão ⚡ 'Aplicar tamanho a todos' para agilizar!"); return; }
   localStorage.setItem('arte_nome',nome); localStorage.setItem('arte_fone',fone);
 
-  // Cabeçalho + itens (sem link — usado como legenda quando as imagens vão anexadas)
+  // Mensagem única: pedido + link direto de cada imagem. Vai como legenda das fotos
+  // anexadas no celular e como texto no PC — os dois jeitos sempre juntos.
   const cab=`👤 *Cliente:* ${nome}\n📱 *WhatsApp:* ${fone}\n\n*Imagens:*\n`;
-  const rodape=(obs?`\n📝 *Obs:* ${obs}`:"")+"\n\n_Catálogo Digital Arte Cromo Estampas_";
-  let base="*PEDIDO — Arte Cromo Estampas*\n\n"+cab;
-  let comLinks="*PEDIDO — Arte Cromo Estampas*\n\n"+cab;
+  let msg="*PEDIDO — Arte Cromo Estampas*\n\n"+cab;
   carrinho.forEach((item,i)=>{
     const prod=PRODUTOS.find(p=>p.id===item.id)||item;
     const numSeq=_numSeq(item);
-    let linha=`\n${i+1}. Imagem ${numSeq} — ${item.nome}\n   📂 ${item.cat}\n`;
-    Object.entries(item.tamanhos).forEach(([tam,qtd])=>{ linha+=`   📐 ${tam} cm × ${qtd} un\n`; });
-    base+=linha; comLinks+=linha;
+    msg+=`\n${i+1}. Imagem ${numSeq} — ${item.nome}\n   📂 ${item.cat}\n`;
+    Object.entries(item.tamanhos).forEach(([tam,qtd])=>{ msg+=`   📐 ${tam} cm × ${qtd} un\n`; });
     const urlImg=urlAbsoluta(prod.img_web||prod.img||item.img||"");
-    if(urlImg) comLinks+=`   🖼️ Ver imagem: ${urlImg}\n`;
+    if(urlImg) msg+=`   🖼️ Ver imagem: ${urlImg}\n`;
   });
-  const msgBase=base+rodape;
-  const msgLinks=comLinks+rodape;
+  if(obs) msg+=`\n📝 *Obs:* ${obs}`;
+  msg+="\n\n_Catálogo Digital Arte Cromo Estampas_";
 
   const btn=document.querySelector(".btn-whatsapp");
   const txtBtn=btn?btn.textContent:"";
   if(btn){ btn.disabled=true; btn.textContent="⏳ Preparando imagens…"; }
   try{
-    // 1) Celular: envia as IMAGENS anexadas junto com o pedido
-    const okImgs=await enviarComImagens(msgBase);
+    // 1) Celular: envia as IMAGENS anexadas + o pedido com os links na legenda
+    const okImgs=await enviarComImagens(msg);
     if(okImgs){ _rastrearPedido(); fecharPedido(); return; }
     // 2) PC / sem suporte: WhatsApp com o pedido + link direto de cada imagem
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msgLinks)}`,"_blank");
+    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
     _rastrearPedido();
   } finally {
     if(btn){ btn.disabled=false; btn.textContent=txtBtn; }
