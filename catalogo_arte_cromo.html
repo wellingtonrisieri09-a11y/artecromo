@@ -515,6 +515,13 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--texto);paddin
 .card:hover .card-share-btn{opacity:1;}
 .card-share-btn:active{transform:scale(0.9);}
 @media(max-width:768px){.card-share-btn{opacity:0.9;padding:6px 10px;font-size:13px;}}
+/* Botão compartilhar no Instagram */
+.card-insta-btn{position:absolute;bottom:6px;left:44px;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff;border:none;border-radius:6px;padding:5px 9px;font-size:12px;cursor:pointer;opacity:0;transition:opacity 0.15s;z-index:2;line-height:1;}
+.card:hover .card-insta-btn{opacity:1;}
+.card-insta-btn:active{transform:scale(0.9);}
+@media(max-width:768px){.card-insta-btn{opacity:0.9;padding:6px 10px;font-size:13px;left:47px;}}
+.zoom-insta-btn{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:15px;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+.zoom-insta-btn:active{transform:scale(0.96);}
 /* Botão compartilhar dentro do zoom */
 .zoom-share-btn{background:#25d366;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:15px;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s;}
 .zoom-share-btn:active{background:#1da851;}
@@ -758,7 +765,8 @@ body{background:#0e0e0e;}
       <button onclick="navegarZoom(1);event.stopPropagation()">&#8594;</button>
     </div>
     <button class="zoom-add-btn" id="zoom-add-btn" onclick="adicionarDoZoom();event.stopPropagation()">+ Adicionar ao Pedido</button>
-    <button class="zoom-share-btn" onclick="compartilharZoom();event.stopPropagation()">📲 Compartilhar</button>
+    <button class="zoom-share-btn" onclick="compartilharZoom();event.stopPropagation()">📲 WhatsApp</button>
+    <button class="zoom-insta-btn" onclick="compartilharInstaZoom();event.stopPropagation()">📷 Instagram</button>
   </div>
 </div>
 
@@ -9893,6 +9901,7 @@ function render(){
         ${imgSrc?`<img data-src="${imgSrc}" alt="${num}" onerror="if(!this.dataset.err){this.dataset.err=1;this.src='${p.img}'}">`:'<div class="placeholder">🖼️</div>'}
         <div class="card-check">✓</div>
         <button class="card-share-btn" title="Compartilhar no WhatsApp">📲</button>
+        <button class="card-insta-btn" title="Compartilhar no Instagram">📷</button>
         <button class="card-zoom-btn" title="Ver ampliado">🔍</button>
       </div>
       <div class="card-info">
@@ -9901,6 +9910,7 @@ function render(){
     card.addEventListener("click",()=>toggleCarrinho(p));
     card.querySelector(".card-zoom-btn").addEventListener("click",e=>{ e.stopPropagation(); abrirZoom(numGlobal,filtrados); });
     card.querySelector(".card-share-btn").addEventListener("click",e=>{ e.stopPropagation(); compartilhar(p); });
+    card.querySelector(".card-insta-btn").addEventListener("click",e=>{ e.stopPropagation(); compartilharInsta(p); });
     grid.appendChild(card);
   });
   catalogo.appendChild(grid);
@@ -10084,6 +10094,39 @@ async function compartilhar(p){
   const msg=`${texto}\n${urlOrig}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,"_blank");
 }
+
+// ── Compartilhar imagem no Instagram ──
+// Celular: abre o menu nativo (Instagram aparece como opção) com a imagem + legenda.
+// PC: baixa a imagem, copia a legenda e abre o Instagram (post manual).
+async function compartilharInsta(p){
+  if(!p) return;
+  const num=String(PRODUTOS.indexOf(p)+1).padStart(4,"0");
+  const urlWeb=urlAbsoluta(p.img_web||p.img||"");
+  const legenda=`Arte Cromo — Estampa nº ${num}\nCatálogo: ${location.origin}\n#artecromo #estampas #gravuras #quadros #decoração`;
+  // 1) Celular: menu nativo com a imagem (Instagram entre as opções)
+  try{
+    if(navigator.canShare){
+      const resp=await fetch(urlWeb);
+      if(resp.ok){
+        const blob=await resp.blob();
+        const file=new File([blob],`ArteCromo_${num}.jpg`,{type:blob.type||"image/jpeg"});
+        if(navigator.canShare({files:[file]})){
+          await navigator.share({files:[file],text:legenda});
+          return;
+        }
+      }
+    }
+  }catch(err){
+    if(err&&err.name==="AbortError") return;
+  }
+  // 2) PC / sem suporte: baixa a imagem + copia a legenda + abre o Instagram
+  try{ await navigator.clipboard.writeText(legenda); }catch(e){}
+  const a=document.createElement("a"); a.href=urlWeb; a.download=`ArteCromo_${num}.jpg`;
+  document.body.appendChild(a); a.click(); a.remove();
+  window.open("https://www.instagram.com/","_blank");
+  alert("✅ Imagem baixada e legenda copiada!\n\nNo Instagram: crie um post, escolha a imagem baixada e cole a legenda (Ctrl+V).");
+}
+function compartilharInstaZoom(){ const p=zoomFiltrados[zoomIdx]; if(p) compartilharInsta(p); }
 document.addEventListener("keydown",e=>{ if(!document.getElementById("zoom-overlay").classList.contains("aberto")) return; if(e.key==="ArrowRight") navegarZoom(1); if(e.key==="ArrowLeft") navegarZoom(-1); if(e.key==="Escape") fecharZoomBtn(); });
 
 function renderPaginacao(total){
