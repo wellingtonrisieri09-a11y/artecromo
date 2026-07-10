@@ -47,6 +47,39 @@ _LOGIN_TENTATIVAS = {}    # IP → (contagem, ultimo_timestamp) para rate limit
 _MAX_TENTATIVAS  = 5      # bloqueia após 5 falhas
 _JANELA_SEG      = 300    # janela de 5 minutos
 
+# ── REBUILD AUTOMÁTICO (o "cérebro") ──────────────────────
+# Qualquer alteração no catálogo (mover, reordenar, enviar, excluir,
+# renomear, girar) agenda UM rebuild_tudo.py que organiza a lista
+# (Lançamentos no topo, numeração em sequência) e regenera SITE + PAINEL
+# + PDF juntos. O "debounce" agrupa várias edições seguidas numa só
+# regeneração (evita refazer o PDF a cada clique).
+_rebuild_timer_lock = threading.Lock()
+_rebuild_timer = {'t': None}
+_rebuild_run_lock = threading.Lock()
+
+def _executar_rebuild():
+    # Um rebuild por vez; se outro já roda, espera terminar.
+    with _rebuild_run_lock:
+        py = sys.executable
+        script = BANCO / 'rebuild_tudo.py'
+        if os.name == 'nt':
+            os.system(f'"{py}" "{script}"')
+        else:
+            os.system(f'ARTECROMO_BANCO="{BANCO}" "{py}" "{script}" >> /tmp/artecromo_rebuild.log 2>&1')
+
+def agendar_rebuild(delay=8):
+    """Agenda (ou re-agenda) um rebuild completo daqui a `delay` segundos.
+       Chamadas seguidas cancelam a anterior — só roda uma vez, no fim."""
+    with _rebuild_timer_lock:
+        t = _rebuild_timer['t']
+        if t is not None:
+            try: t.cancel()
+            except Exception: pass
+        nt = threading.Timer(delay, _executar_rebuild)
+        nt.daemon = True
+        _rebuild_timer['t'] = nt
+        nt.start()
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(BANCO), **kwargs)
@@ -269,18 +302,14 @@ class Handler(SimpleHTTPRequestHandler):
                         os.system(f'nohup "{py}" "{caminho}" > /dev/null 2>&1 &')
                 threading.Thread(target=_run, daemon=True).start()
 
-            # ── Sequência síncrona (rápida, ~30s) ─────────────
+            # Garante thumbs de imagens novas (rápido)
             _rodar('gerar_thumbs.py')
             # gerar_lista.py só roda no Windows (local).
             # Na VPS (Linux) o JSON é gerenciado pelo PC — não sobrescrever!
             if os.name == 'nt':
                 _rodar('gerar_lista.py')
-            _rodar('montar_catalogo.py')
-            _rodar('atualizar_produtos_html.py')
-
-            # ── Background com delay para não travar o servidor ─
-            _bg_delayed('otimizar_web.py', delay=30)   # 30s depois
-            _bg_delayed('gerar_pdf.py',    delay=120)  # 2 min depois
+            # Organiza a lista + regenera SITE + PAINEL + PDF juntos (o cérebro)
+            agendar_rebuild(delay=1)
 
             resposta = json.dumps({'ok': True}).encode('utf-8')
         except Exception as e:
@@ -340,6 +369,7 @@ class Handler(SimpleHTTPRequestHandler):
                 if thumb_path.exists():
                     girar_arquivo(thumb_path, graus, como_thumb=True)
 
+            agendar_rebuild()
             resposta = json.dumps({'ok': True}).encode('utf-8')
         except Exception as e:
             resposta = json.dumps({'ok': False, 'erro': str(e)}).encode('utf-8')
@@ -440,6 +470,8 @@ class Handler(SimpleHTTPRequestHandler):
         with open(str(json_path), 'w', encoding='utf-8') as f:
             json.dump(lista, f, ensure_ascii=False, indent=2)
 
+        agendar_rebuild()  # nova imagem em Lançamentos → organiza + regenera tudo
+
         resposta = json.dumps({
             'ok': True, 'id': novo_id,
             'nome': dest.stem, 'sugestao': sugestao,
@@ -500,12 +532,22 @@ class Handler(SimpleHTTPRequestHandler):
             # Atualiza a ordem da categoria recebida
             ordem = dados.get('ordem', [])  # lista de ids na nova ordem
             cat   = dados.get('cat', '')
-            # Separa os itens da categoria e os demais
-            outros = [p for p in lista if p['cat'] != cat]
-            desta  = {p['id']: p for p in lista if p['cat'] == cat}
+            # Reordena os itens DA categoria mantendo o bloco na MESMA posição da lista
+            desta = {p['id']: p for p in lista if p['cat'] == cat}
             reordenados = [desta[i] for i in ordem if i in desta]
+            reordenados += [p for p in lista if p['cat'] == cat and p['id'] not in ordem]
+            nova = []
+            inseriu = False
+            for p in lista:
+                if p['cat'] == cat:
+                    if not inseriu:
+                        nova.extend(reordenados)
+                        inseriu = True
+                else:
+                    nova.append(p)
             with open(str(json_path), 'w', encoding='utf-8') as f:
-                json.dump(outros + reordenados, f, ensure_ascii=False, indent=2)
+                json.dump(nova, f, ensure_ascii=False, indent=2)
+            agendar_rebuild()
             resposta = json.dumps({'ok': True}).encode('utf-8')
         except Exception as e:
             resposta = json.dumps({'ok': False, 'erro': str(e)}).encode('utf-8')
@@ -640,13 +682,8 @@ class Handler(SimpleHTTPRequestHandler):
                         os.chmod(str(json_path), 0o644)
                     except Exception:
                         pass
-                    # Regenerar catálogo HTML em background
-                    py = sys.executable
-                    null = '/dev/null'
-                    def _regen():
-                        import time; time.sleep(1)
-                        os.system(f'ARTECROMO_BANCO="{BANCO}" "{py}" "{BANCO / "montar_catalogo.py"}" > {null} 2>&1')
-                    threading.Thread(target=_regen, daemon=True).start()
+                    # Organiza + regenera site + painel + PDF (agrupado/debounced)
+                    agendar_rebuild()
                 except Exception as e:
                     erros.append(f"JSON update: {e}")
 
@@ -669,6 +706,7 @@ class Handler(SimpleHTTPRequestHandler):
             json_path = BANCO / 'lista_imagens.json'
             with open(str(json_path), 'w', encoding='utf-8') as f:
                 json.dump(estado, f, ensure_ascii=False, indent=2)
+            agendar_rebuild()
             resposta = json.dumps({'ok': True}).encode('utf-8')
         except Exception as e:
             resposta = json.dumps({'ok': False, 'erro': str(e)}).encode('utf-8')
@@ -720,6 +758,7 @@ class Handler(SimpleHTTPRequestHandler):
             with open(str(json_path), 'w', encoding='utf-8') as f:
                 json.dump(lista, f, ensure_ascii=False, indent=2)
 
+            agendar_rebuild()
             resposta = json.dumps({'ok': True, 'nova_img': nova_img_rel, 'novo_thumb': novo_thumb_rel}).encode('utf-8')
         except Exception as e:
             resposta = json.dumps({'ok': False, 'erro': str(e)}).encode('utf-8')
