@@ -24,3 +24,6 @@ __pycache__/
 *.bak
 *.bak.*
 nul
+
+# logo oficial (exceção)
+!logo.png

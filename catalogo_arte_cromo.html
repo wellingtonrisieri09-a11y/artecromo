@@ -49,7 +49,7 @@
       "name": "Arte Cromo Estampas",
       "description": "Fornecedor de estampas para quadros decorativos. Impressão em colete 115g colorido com mais de 1.100 opções de estampas. Atendemos empresas de quadros em todo o Brasil.",
       "url": "https://artecromoestampas.com.br/",
-      "telephone": "+5511947852675",
+      "telephone": "+5511987916193",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Aparecida",
@@ -522,29 +522,126 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--texto);paddin
 .zoom-tam-chip{padding:9px 15px;border-radius:8px;border:2px solid #444;background:#1e1e1e;color:#888;font-size:14px;font-family:monospace;font-weight:bold;cursor:pointer;transition:all 0.15s;}
 .zoom-tam-chip.zm{border-color:#25d366;background:#0d2318;color:#25d366;}
 .zoom-tam-chip:active{transform:scale(0.95);}
+
+/* ═══════════════════════════════════════════════════════════
+   IDENTIDADE ARTE CROMO — CMYK (redesign)
+   Preto + Ciano/Magenta/Amarelo (linha do logo).
+   Verde mantido só nas ações de WhatsApp.
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --preto:#0b0b0b; --preto2:#151515;
+  --ciano:#00b4e6; --magenta:#ec0a8c; --amarelo:#ffcf00;
+  --cinza-marca:#8c8c8c;
+}
+body{background:#0e0e0e;}
+
+/* ── HEADER com o logo oficial (fundo branco) ── */
+.header{position:static;background:#ffffff;padding:16px 16px 0;border-bottom:none;box-shadow:0 6px 24px rgba(0,0,0,.5);text-align:center;}
+.header::after{content:"";display:block;height:6px;margin-top:16px;background:linear-gradient(90deg,var(--ciano) 0 33.33%,var(--magenta) 33.33% 66.66%,var(--amarelo) 66.66% 100%);}
+.logo-wrap,.slogan{display:none!important;}
+.logo-img{height:120px;width:auto;display:inline-block;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(180deg,#131313,#0b0b0b);padding:26px 16px;text-align:center;border-bottom:1px solid #1c1c1c;}
+.hero h1{font-size:24px;font-weight:800;color:#fff;line-height:1.25;letter-spacing:.3px;}
+.hero h1 b{color:var(--ciano);}
+.hero p{font-size:13.5px;color:#a8a8a8;margin-top:9px;line-height:1.6;}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px;}
+.hero-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:bold;font-size:14px;text-decoration:none;transition:transform .12s,box-shadow .2s;}
+.hero-btn:active{transform:scale(.96);}
+.hero-btn.zap{background:var(--verde);color:#000;box-shadow:0 6px 18px rgba(37,211,102,.35);}
+.hero-btn.pdf{background:transparent;color:var(--ciano);border:2px solid var(--ciano);}
+.hero-btn.pdf:hover{background:rgba(0,180,230,.12);}
+
+/* ── BUSCA / STATS ── */
+.busca-bar{background:#0e0e0e;border-bottom:1px solid #1c1c1c;}
+.busca-wrap input{background:#191919;border-color:#282828;}
+.busca-wrap input:focus{border-color:var(--ciano);}
+.stats{background:#0e0e0e;border-bottom:1px solid #1c1c1c;}
+.stat{background:#151515;border:1px solid #222;position:relative;overflow:hidden;}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.stat:nth-child(1)::before{background:var(--ciano);}
+.stat:nth-child(2)::before{background:var(--magenta);}
+.stat:nth-child(3)::before{background:var(--amarelo);}
+.stat:nth-child(1) .stat-num{color:var(--ciano);}
+.stat:nth-child(2) .stat-num{color:var(--magenta);}
+.stat:nth-child(3) .stat-num{color:var(--amarelo);}
+
+/* ── SIDEBAR (ativo em ciano) ── */
+.sidebar{background:#0b0b0b;top:0;height:100vh;border-right:1px solid #1c1c1c;}
+.mi.ativo{background:#062530;border-left-color:var(--ciano);}
+.mi.ativo .lbl{color:#fff;}
+.mi.ativo .cnt{color:var(--ciano);background:#03151b;}
+.ms.ativo{background:#062530;border-left-color:var(--ciano);}
+.ms.ativo .lbl{color:var(--ciano);}
+.ms.ativo .cnt{color:var(--ciano);}
+.mg.ativo{border-left-color:var(--ciano);}
+.mi.lancamentos{background:linear-gradient(135deg,#2a0a1e,#150a0d);border-left-color:var(--magenta);}
+.mi.lancamentos .lbl{color:var(--magenta);}
+.mi.lancamentos .cnt{background:var(--magenta);color:#fff;}
+
+/* ── TÍTULO DA CATEGORIA ── */
+.cat-titulo{background:#151515;border-left:4px solid var(--ciano);color:#fff;box-shadow:0 2px 14px rgba(0,0,0,.35);}
+.cat-titulo small{color:#8a8a8a;}
+
+/* ── CARDS (galeria) ── */
+.card{background:#161616;border:1px solid #242424;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.35);}
+.card:hover{border-color:var(--ciano);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.55);}
+.card.selecionado{border-color:var(--verde);box-shadow:0 0 0 2px var(--verde),0 8px 22px rgba(37,211,102,.22);}
+.card-thumb{background:#fff;border-bottom:1px solid #ececec;}
+.card-thumb img{background:#fff;}
+.card-badge{background:var(--magenta);color:#fff;box-shadow:0 2px 8px rgba(236,10,140,.5);}
+.card-info{background:#161616;}
+.card-num{color:#fff;}
+
+/* ── PAGINAÇÃO ── */
+.pag-btn:hover{border-color:var(--ciano);color:#fff;}
+.pag-btn.atual{background:var(--ciano);color:#000;border-color:var(--ciano);}
+
+/* ── FAB carrinho (magenta, chamativo) ── */
+.carrinho-fab{background:var(--magenta);color:#fff;box-shadow:0 6px 26px rgba(236,10,140,.5);}
+.carrinho-badge{background:#fff;color:var(--magenta);}
+
+/* ── BOTTOM NAV ── */
+.bnav-btn.ativo .bnav-lbl{color:var(--ciano);}
+
+/* ── RODAPÉ DE MARCA ── */
+.site-footer{background:#070707;border-top:1px solid #1a1a1a;padding:0 16px 22px;text-align:center;margin-bottom:4px;}
+.foot-cmyk{height:5px;margin:0 -16px 22px;background:linear-gradient(90deg,var(--ciano) 0 33.33%,var(--magenta) 33.33% 66.66%,var(--amarelo) 66.66% 100%);}
+.foot-brand{display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.foot-logo{background:#fff;border-radius:16px;padding:14px 20px;display:inline-flex;box-shadow:0 4px 18px rgba(0,0,0,.4);}
+.foot-logo img{height:96px;width:auto;display:block;}
+.foot-contacts{display:flex;gap:8px 20px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;}
+.foot-contacts a{color:#ddd;font-size:14px;font-weight:bold;text-decoration:none;}
+.foot-contacts a:hover{color:var(--ciano);}
+.foot-addr{font-size:12.5px;color:#666;line-height:1.7;}
+.foot-copy{font-size:11px;color:#444;letter-spacing:1px;margin-top:12px;text-transform:uppercase;}
+
+@media(max-width:768px){
+  .logo-img{height:92px;}
+  .hero{padding:20px 14px;}
+  .hero h1{font-size:20px;}
+  .hero p{font-size:12.5px;}
+  .hero-btn{padding:12px 18px;font-size:13px;}
+}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <div class="logo-wrap">
-    <div class="cmyk-bar">
-      <span style="background:#888;"></span>
-      <span style="background:#00bcd4;"></span>
-      <span style="background:#f5e642;"></span>
-      <span style="background:#e91e8c;"></span>
-    </div>
-    <div class="logo-text">Arte Cromo<span class="logo-sub">ESTAMPAS</span></div>
-    <div class="cmyk-bar">
-      <span style="background:#e91e8c;"></span>
-      <span style="background:#f5e642;"></span>
-      <span style="background:#00bcd4;"></span>
-      <span style="background:#888;"></span>
-    </div>
+<header class="header">
+  <img class="logo-img" src="/logo.png" alt="Arte Cromo — Distribuidora de Gravuras">
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Estampas &amp; Gravuras para seus <b>Quadros</b></h1>
+  <p>Mais de 1.100 artes em alta resolução · Atacado e varejo · Enviamos para todo o Brasil</p>
+  <div class="hero-cta">
+    <a class="hero-btn zap" href="https://wa.me/5511987916193?text=Ol%C3%A1!%20Vim%20pelo%20cat%C3%A1logo%20Arte%20Cromo%20e%20quero%20fazer%20um%20pedido." target="_blank">💬 Falar no WhatsApp</a>
+    <a class="hero-btn pdf" href="/catalogo_arte_cromo.pdf">📥 Baixar catálogo em PDF</a>
   </div>
-  <div class="slogan">Soluções Gráficas · Catálogo Digital</div>
-</div>
+</section>
 
 <!-- BUSCA + STATS + BOTÃO PDF -->
 <div class="busca-bar">
@@ -554,7 +651,7 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--texto);paddin
       <input type="text" id="busca" placeholder="Buscar por número ou categoria..." oninput="filtrar()">
     </div>
     <a href="/catalogo_arte_cromo.pdf"
-       style="display:flex;align-items:center;gap:8px;background:#25d366;color:#000;font-weight:bold;font-size:13px;padding:11px 18px;border-radius:10px;text-decoration:none;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 10px rgba(37,211,102,0.35);">
+       style="display:flex;align-items:center;gap:8px;background:#00b4e6;color:#000;font-weight:bold;font-size:13px;padding:11px 18px;border-radius:10px;text-decoration:none;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 10px rgba(0,180,230,0.35);">
       📥 Baixar PDF
     </a>
   </div>
@@ -582,10 +679,18 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--texto);paddin
 </div>
 
 <!-- FOOTER -->
-<div style="background:#111;border-top:1px solid #1e1e1e;padding:16px;text-align:center;margin-bottom:4px;">
-  <div style="font-size:16px;color:#ccc;font-weight:bold;margin-bottom:6px;">11 94785-2675 &nbsp;/&nbsp; 11 98791-6193</div>
-  <div style="font-size:13px;color:#555;line-height:1.9;">arte.cromo@yahoo.com.br<br>Rua Primo Baudini, 354 · Jd Augusta · São Matheus · SP</div>
-</div>
+<footer class="site-footer">
+  <div class="foot-cmyk"></div>
+  <div class="foot-brand">
+    <span class="foot-logo"><img src="/logo.png" alt="Arte Cromo"></span>
+  </div>
+  <div class="foot-contacts">
+    <a href="https://wa.me/5511987916193" target="_blank">📱 11 98791-6193</a>
+    <a href="mailto:arte.cromo@yahoo.com.br">✉️ arte.cromo@yahoo.com.br</a>
+  </div>
+  <div class="foot-addr">Rua Primo Baudini, 354 · Jd Augusta · São Mateus · São Paulo/SP</div>
+  <div class="foot-copy">© Arte Cromo · Distribuidora de Gravuras</div>
+</footer>
 
 <!-- BOTTOM NAV (mobile) -->
 <nav class="bottom-nav">
@@ -658,7 +763,7 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--texto);paddin
 </div>
 
 <script>
-const WHATSAPP = "5511947852675";
+const WHATSAPP = "5511987916193";
 const TAMANHOS = ["20x30","30x40","40x50","50x70","60x90","80x120"];
 
 const MENU = [

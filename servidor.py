@@ -24,7 +24,7 @@ DOMINIO = os.environ.get('ARTECROMO_DOMINIO', 'localhost')
 def _carregar_config():
     cfg_path = BANCO / 'config.json'
     defaults = {'usuario': 'admin', 'senha': 'DEFINA_ARTECROMO_SENHA',
-                'whatsapp': '5511947852675', 'nome_loja': 'Arte Cromo Estampas'}
+                'whatsapp': '5511987916193', 'nome_loja': 'Arte Cromo Estampas'}
     try:
         with open(str(cfg_path), encoding='utf-8') as f:
             dados = json.load(f)
