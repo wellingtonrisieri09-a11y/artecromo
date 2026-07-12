@@ -1,0 +1,202 @@
+== executando 002-deploy-topfood-retry em 2026-07-12 18:08:02 ==
+==============================================
+ TopFood — recuperação
+   Domínio: topfoodembalagens.com.br
+   Pasta:   /var/www/topfood
+==============================================
+Hit:1 https://deb.nodesource.com/node_20.x nodistro InRelease
+Hit:2 https://repository.monarx.com/repository/ubuntu-noble noble InRelease
+Hit:3 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu noble-backports InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+nginx is already the newest version (1.24.0-2ubuntu7.13).
+git is already the newest version (1:2.43.0-1ubuntu7.3).
+build-essential is already the newest version (12.10ubuntu1).
+python3 is already the newest version (3.12.3-0ubuntu2.1).
+ca-certificates is already the newest version (20260601~24.04.1).
+curl is already the newest version (8.5.0-2ubuntu10.11).
+0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
+>> Node v20.20.2 / npm 10.8.2
+>> Repositório já existe — atualizando...
+Already up to date.
+>> npm install (pode demorar alguns minutos: compila o SQLite)...
+npm warn deprecated prebuild-install@7.1.3: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
+npm warn deprecated uuid@9.0.1: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated @whiskeysockets/baileys@6.7.18: This version is affected by a zero-day vulnerability that allows spoofing of messages, please update to
+npm warn deprecated   the latest versions (6.7.22^ or 7.0.0-rc12^)! For more information, check out the public advisory at
+npm warn deprecated   https://github.com/WhiskeySockets/Baileys/security/advisories/GHSA-qvv5-jq5g-4cgg
+
+added 312 packages, and audited 313 packages in 1m
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (3 moderate, 3 high, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+>> .env criado a partir do .env.example (chaves de PIX/NF-e/WhatsApp
+   precisam ser preenchidas depois — o site sobe mesmo assim).
+>> Criando banco a partir dos JSONs (migrate_sqlite.js)...
+BACKUP salvo em: /var/www/topfood/data/backup_pre_sqlite_1783879773797
+JSON: products=0 orders=0 customers=0 users=0
+Schema criado com CURRENT_TIMESTAMP
+Owner Wellington criado com bcrypt
+
+VALIDACAO:
+  OK products: esperado=0 obtido=0
+  OK orders: esperado=0 obtido=0
+  OK customers: esperado=0 obtido=0
+  OK coupons: esperado=0 obtido=0
+  OK owner: wellington role=owner
+  OK budget: google R$1000
+  OK budget: meta R$1000
+  OK budget: tiktok R$0
+
+MIGRACAO COMPLETA - banco em /var/www/topfood/data/topfood.db
+[PM2] Starting /var/www/topfood/server.js in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ topfood    │ default     │ 1.0.0   │ fork    │ 6509     │ 0s     │ 0    │ online    │ 0%       │ 27.1mb   │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+/opt/claude-agente/repo/deploy_topfood.sh: line 74: [PM2]: command not found
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Synchronizing state of nginx.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable nginx
+>> Teste do app: HTTP 200
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  python3-acme python3-certbot python3-configargparse python3-icu
+  python3-josepy python3-parsedatetime python3-rfc3339
+Suggested packages:
+  python-certbot-doc python3-certbot-apache python-acme-doc
+  python-certbot-nginx-doc
+The following NEW packages will be installed:
+  certbot python3-acme python3-certbot python3-certbot-nginx
+  python3-configargparse python3-icu python3-josepy python3-parsedatetime
+  python3-rfc3339
+0 upgraded, 9 newly installed, 0 to remove and 3 not upgraded.
+Need to get 1097 kB of archives.
+After this operation, 5699 kB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-josepy all 1.14.0-1 [22.1 kB]
+Get:2 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-rfc3339 all 1.1-4 [6744 B]
+Get:3 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-acme all 2.9.0-1 [48.5 kB]
+Get:4 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-configargparse all 1.7-1 [31.7 kB]
+Get:5 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-parsedatetime all 2.6-3 [32.8 kB]
+Get:6 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-certbot all 2.9.0-1 [267 kB]
+Get:7 http://archive.ubuntu.com/ubuntu noble/universe amd64 certbot all 2.9.0-1 [89.2 kB]
+Get:8 http://archive.ubuntu.com/ubuntu noble/universe amd64 python3-certbot-nginx all 2.9.0-1 [66.0 kB]
+Get:9 http://archive.ubuntu.com/ubuntu noble/main amd64 python3-icu amd64 2.12-1build2 [534 kB]
+Preconfiguring packages ...
+Fetched 1097 kB in 1s (1055 kB/s)
+Selecting previously unselected package python3-josepy.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 45054 files and directories currently installed.)
+Preparing to unpack .../0-python3-josepy_1.14.0-1_all.deb ...
+Unpacking python3-josepy (1.14.0-1) ...
+Selecting previously unselected package python3-rfc3339.
+Preparing to unpack .../1-python3-rfc3339_1.1-4_all.deb ...
+Unpacking python3-rfc3339 (1.1-4) ...
+Selecting previously unselected package python3-acme.
+Preparing to unpack .../2-python3-acme_2.9.0-1_all.deb ...
+Unpacking python3-acme (2.9.0-1) ...
+Selecting previously unselected package python3-configargparse.
+Preparing to unpack .../3-python3-configargparse_1.7-1_all.deb ...
+Unpacking python3-configargparse (1.7-1) ...
+Selecting previously unselected package python3-parsedatetime.
+Preparing to unpack .../4-python3-parsedatetime_2.6-3_all.deb ...
+Unpacking python3-parsedatetime (2.6-3) ...
+Selecting previously unselected package python3-certbot.
+Preparing to unpack .../5-python3-certbot_2.9.0-1_all.deb ...
+Unpacking python3-certbot (2.9.0-1) ...
+Selecting previously unselected package certbot.
+Preparing to unpack .../6-certbot_2.9.0-1_all.deb ...
+Unpacking certbot (2.9.0-1) ...
+Selecting previously unselected package python3-certbot-nginx.
+Preparing to unpack .../7-python3-certbot-nginx_2.9.0-1_all.deb ...
+Unpacking python3-certbot-nginx (2.9.0-1) ...
+Selecting previously unselected package python3-icu.
+Preparing to unpack .../8-python3-icu_2.12-1build2_amd64.deb ...
+Unpacking python3-icu (2.12-1build2) ...
+Setting up python3-configargparse (1.7-1) ...
+Setting up python3-parsedatetime (2.6-3) ...
+Setting up python3-icu (2.12-1build2) ...
+Setting up python3-josepy (1.14.0-1) ...
+Setting up python3-rfc3339 (1.1-4) ...
+Setting up python3-acme (2.9.0-1) ...
+Setting up python3-certbot (2.9.0-1) ...
+Setting up certbot (2.9.0-1) ...
+Created symlink /etc/systemd/system/timers.target.wants/certbot.timer → /usr/lib/systemd/system/certbot.timer.
+Setting up python3-certbot-nginx (2.9.0-1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Account registered.
+Requesting a certificate for topfoodembalagens.com.br and www.topfoodembalagens.com.br
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/topfoodembalagens.com.br/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/topfoodembalagens.com.br/privkey.pem
+This certificate expires on 2026-10-10.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for topfoodembalagens.com.br to /etc/nginx/sites-enabled/topfood
+Successfully deployed certificate for www.topfoodembalagens.com.br to /etc/nginx/sites-enabled/topfood
+Congratulations! You have successfully enabled HTTPS on https://topfoodembalagens.com.br and https://www.topfoodembalagens.com.br
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+==============================================
+ TOPFOOD RECUPERADO
+----------------------------------------------
+ Site:   http://topfoodembalagens.com.br
+ HTTPS:  ATIVO -> https://topfoodembalagens.com.br
+ Admin:  https://topfoodembalagens.com.br/admin.html (user: wellington)
+
+ >>> PASSO FINAL (para voltar o repo a PRIVADO sem quebrar
+ >>> o auto-deploy): adicione esta chave em GitHub ->
+ >>> topfood -> Settings -> Deploy keys -> Add deploy key:
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFLL75Ddj0erNCdXDPc9tV5kQxNyFiwi42alPdtG+9N2 topfood-vps
+
+ Depois de adicionar a chave, pode voltar o repositório
+ para privado que o auto-deploy continua funcionando.
+==============================================
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ topfood    │ default     │ 1.0.0   │ fork    │ 6509     │ 22s    │ 0    │ online    │ 0%       │ 74.8mb   │ root     │ disabled │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+host metrics | cpu: 0% | ram usage: 8% | disk: ⇓ 0mb/s ⇑ 0mb/s |
+== fim (exit 0) ==
