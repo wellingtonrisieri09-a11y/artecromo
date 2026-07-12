@@ -24,11 +24,22 @@ echo "   Pasta   : $APP_DIR"
 echo "   Porta   : $PORT (interna, atrás do nginx)"
 echo "======================================================"
 
-# --- 0) Sanidade: a pasta e o servidor.py existem? -------------------
+# --- 0) Código: baixa do GitHub se ainda não estiver no servidor -----
+REPO_URL="${ARTECROMO_REPO:-https://github.com/wellingtonrisieri09-a11y/artecromo}"
+REPO_BRANCH="${ARTECROMO_BRANCH:-claude/arte-cromo-site-progress-lj4xli}"
 if [ ! -f "$APP_DIR/servidor.py" ]; then
-  echo "ERRO: não encontrei $APP_DIR/servidor.py"
-  echo "Envie a pasta do Banco de Imagens para $APP_DIR e rode de novo."
-  echo "(ou: ARTECROMO_DIR=/caminho/da/pasta bash deploy_vps.sh)"
+  echo ">> Código não encontrado em $APP_DIR — baixando do GitHub..."
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -y >/dev/null
+  apt-get install -y git >/dev/null
+  git clone --depth 1 -b "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
+elif [ -d "$APP_DIR/.git" ]; then
+  echo ">> Atualizando código a partir do GitHub..."
+  git -C "$APP_DIR" pull --ff-only || true
+fi
+if [ ! -f "$APP_DIR/servidor.py" ]; then
+  echo "ERRO: não encontrei $APP_DIR/servidor.py mesmo após o download."
+  echo "(o repositório está privado? Torne-o público ou envie os arquivos por SFTP)"
   exit 1
 fi
 
