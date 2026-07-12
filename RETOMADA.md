@@ -29,9 +29,21 @@ O Claude NÃO tem SSH direto (porta 22 bloqueada no sandbox). A execução no VP
   baileys×sharp — corrigido com --legacy-peer-deps), 002-deploy-topfood (retry).
 - **Desligar a ponte** (quando tudo acabar): `crontab -l | grep -v claude-agente | crontab -`
 
-## Estado no momento do save
+## Estado no momento do save (ATUALIZADO pos-deploy)
 1. ✅ Ponte ativa e testada (000-teste respondeu).
-2. 🔄 **001-deploy-topfood.sh em execução** — roda `deploy_topfood.sh` (deste repo):
+2. ✅ TOP FOOD NO AR: https://topfoodembalagens.com.br (HTTPS ok, pm2 `topfood`
+   online, auto-deploy cron ativo). Banco recriado no schema novo (raw_data);
+   /api/products responde []. Admin: wellington/topfood2026 (TROCAR).
+   CATÁLOGO DE PRODUTOS VAZIO — dados moravam no VPS antigo; wayback sem
+   snapshot; data/ nunca foi commitada. Opções: cópia no PC do Wellington
+   (aguardando resposta), anúncios publicados no Mercado Livre (M10),
+   feeds Google Merchant/Meta Catalog, ou recadastro manual no admin
+   (imagens estão no repo /images). Chaves .env são placeholders — recadastrar
+   Mercado Pago/Asaas/NF-e/e-mail. (histórico: 001 falhou npm ERESOLVE;
+   002 deploy ok; 004 fix schema banco ok; 005 wayback vazio)
+   PENDENTE: deploy key no repo topfood (chave id_ed25519.pub, ver resultado
+   002) e voltar os repos topfood+artecromo a PRIVADO.
+   (comando antigo: 001-deploy-topfood — roda `deploy_topfood.sh` (deste repo):
    instala nginx+Node20+pm2, clona `topfood` → `/var/www/topfood`, npm install,
    migrate_sqlite, pm2 (processo `topfood`), nginx no domínio, certbot HTTPS,
    cron de auto-deploy, gera chave `/root/.ssh/id_ed25519` p/ deploy key do topfood.
