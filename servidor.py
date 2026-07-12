@@ -19,6 +19,9 @@ import threading, webbrowser
 BANCO = Path(os.environ.get('ARTECROMO_BANCO', r"E:\Banco de Imagens"))
 PORT  = int(os.environ.get('ARTECROMO_PORT', 8765))
 DOMINIO = os.environ.get('ARTECROMO_DOMINIO', 'localhost')
+# Interface de escuta: '' = todas (uso local). Atrás de proxy (nginx) use 127.0.0.1
+# para não expor a porta do painel direto na internet.
+HOST  = os.environ.get('ARTECROMO_HOST', '')
 
 # ── Configurações (carregadas de config.json) ─────────
 def _carregar_config():
@@ -902,12 +905,15 @@ class Handler(SimpleHTTPRequestHandler):
 def iniciar():
     os.chdir(str(BANCO))
     ThreadingHTTPServer.allow_reuse_address = True
-    httpd = ThreadingHTTPServer(('', PORT), Handler)
+    httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     url = f'http://localhost:{PORT}/correcao_manual.html'
-    print(f"\nServidor rodando em: http://localhost:{PORT}")
-    print(f"Abrindo: {url}")
+    onde = HOST or '0.0.0.0'
+    print(f"\nServidor rodando em: http://{onde}:{PORT}")
     print("Pressione Ctrl+C para parar.\n")
-    threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+    # Só abre o navegador em uso local (no servidor/headless fica desativado).
+    if os.environ.get('ARTECROMO_ABRIR_NAV', '1') == '1':
+        print(f"Abrindo: {url}")
+        threading.Timer(1.0, lambda: webbrowser.open(url)).start()
     httpd.serve_forever()
 
 if __name__ == '__main__':
