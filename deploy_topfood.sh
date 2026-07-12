@@ -45,7 +45,9 @@ cd "$APP_DIR"
 
 # --- Dependências ------------------------------------------------------
 echo ">> npm install (pode demorar alguns minutos: compila o SQLite)..."
-npm install
+# --legacy-peer-deps: o baileys (WhatsApp) declara sharp antigo como peer
+# opcional e conflita com o sharp 0.35 do projeto — era assim no VPS antigo.
+npm install --legacy-peer-deps
 
 # --- Configuração (.env) ----------------------------------------------
 if [ ! -f .env ] && [ -f .env.example ]; then
