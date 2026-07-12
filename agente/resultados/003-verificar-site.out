@@ -1,0 +1,15 @@
+== executando 003-verificar-site em 2026-07-12 18:11:02 ==
+--- home ---
+HTTP 200 em 0.293013s
+--- api products ---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>SqliteError: no such column: raw_data<br> &nbsp; &nbsp;at Database.prepare (/var/www/topfood/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)<br> &nbsp; &nbsp;at readData (/var/www/topfood/db.js:129:13)<br> &nbsp; &nbsp;at /var/www/topfood/server.js:401:12<br> &nbsp; &nbsp;at Layer.hand
+--- titulo da pagina ---
+<title>Embalagem para Fast Food e Delivery | Hambúrguer, Pastel e Fritas — TopFood
+== fim (exit 0) ==
