@@ -1,0 +1,23 @@
+# systemd — SÓ o Arte Cromo (Python, porta 8765).
+# Instalar na VPS (uma vez):
+#   sudo cp /var/www/artecromo/artecromo.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now artecromo
+# Reiniciar SÓ ele: sudo systemctl restart artecromo
+[Unit]
+Description=Arte Cromo Estampas (catalogo + pedidos)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/artecromo
+ExecStart=/usr/bin/python3 /var/www/artecromo/servidor.py
+Restart=always
+RestartSec=3
+# Ajuste os valores reais aqui (ou use um drop-in com systemctl edit artecromo):
+Environment=ARTECROMO_PORT=8765
+Environment=ARTECROMO_BANCO=/var/www/artecromo/banco-imagens
+Environment=ARTECROMO_DOMINIO=artecromoestampas.com.br
+
+[Install]
+WantedBy=multi-user.target
