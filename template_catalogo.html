@@ -1062,6 +1062,93 @@ async function enviarComImagens(texto){
     return false;
   }
 }
+// ── CARTÃO do pedido: imagem-resumo (cabeçalho CMYK + itens com miniaturas) ──
+function _carregarImg(src){
+  return new Promise(res=>{
+    if(!src){ res(null); return; }
+    const im=new Image();
+    im.onload=()=>res(im);
+    im.onerror=()=>res(null);
+    im.src=urlAbsoluta(src);
+  });
+}
+async function gerarCartaoPedido(nome,fone,obs){
+  try{
+    const itens=carrinho.map(item=>({item,prod:PRODUTOS.find(p=>p.id===item.id)||item}));
+    const thumbs=await Promise.all(itens.map(({item,prod})=>_carregarImg(prod.thumb||item.img||prod.img_web||prod.img)));
+    const W=1000, PAD=40, ROW=160, HEAD=225,
+          OBS=obs?70:0, FOOT=64,
+          H=HEAD+itens.length*ROW+OBS+FOOT+20;
+    const cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+    const x=cv.getContext("2d");
+    // fundo
+    x.fillStyle="#ffffff"; x.fillRect(0,0,W,H);
+    // faixa CMYK no topo
+    const cores=["#00b4d8","#ec0a8c","#ffd400"];
+    cores.forEach((c,i)=>{ x.fillStyle=c; x.fillRect(i*(W/3),0,W/3,14); });
+    // cabeçalho
+    x.textAlign="left"; x.textBaseline="alphabetic"; x.fillStyle="#111";
+    x.font="800 36px -apple-system,'Segoe UI',Arial";
+    x.fillText("PEDIDO — Arte Cromo Estampas",PAD,72);
+    x.font="400 22px -apple-system,'Segoe UI',Arial"; x.fillStyle="#555";
+    x.fillText("Cliente:  "+nome,PAD,116);
+    x.fillText("WhatsApp: "+fone,PAD,148);
+    x.font="400 18px -apple-system,'Segoe UI',Arial"; x.fillStyle="#9aa";
+    x.fillText(new Date().toLocaleString("pt-BR"),PAD,180);
+    x.strokeStyle="#e8eaee"; x.lineWidth=2;
+    x.beginPath(); x.moveTo(PAD,200); x.lineTo(W-PAD,200); x.stroke();
+    // itens
+    itens.forEach(({item},i)=>{
+      const y=HEAD+i*ROW;
+      if(i%2===1){ x.fillStyle="#f6f7fa"; x.fillRect(PAD-14,y-8,W-2*PAD+28,ROW-8); }
+      const im=thumbs[i], S=120;
+      x.fillStyle="#eceef2"; x.fillRect(PAD,y,S,S);
+      if(im){
+        const r=Math.min(S/im.width,S/im.height), w=im.width*r, h=im.height*r;
+        x.drawImage(im,PAD+(S-w)/2,y+(S-h)/2,w,h);
+      } else {
+        x.fillStyle="#b9bec7"; x.font="600 40px Arial"; x.textAlign="center";
+        x.fillText("🖼",PAD+S/2,y+S/2+14); x.textAlign="left";
+      }
+      const tx=PAD+S+26;
+      x.fillStyle="#111"; x.font="700 25px -apple-system,'Segoe UI',Arial";
+      x.fillText((i+1)+". Imagem "+_numSeq(item),tx,y+30);
+      x.fillStyle="#666"; x.font="400 21px -apple-system,'Segoe UI',Arial";
+      x.fillText(String(item.nome||"").slice(0,46),tx,y+62);
+      x.fillStyle="#00a3c4"; x.font="500 20px -apple-system,'Segoe UI',Arial";
+      x.fillText("Categoria: "+(item.cat||""),tx,y+92);
+      const tams=Object.entries(item.tamanhos).map(([t,q])=>t+"cm ×"+q).join("   ");
+      x.fillStyle="#333"; x.font="500 20px -apple-system,'Segoe UI',Arial";
+      x.fillText("Tamanhos: "+tams.slice(0,60),tx,y+122);
+    });
+    // observação
+    if(obs){
+      x.fillStyle="#111"; x.font="700 21px -apple-system,'Segoe UI',Arial";
+      x.fillText("Obs.: "+obs.slice(0,70),PAD,HEAD+itens.length*ROW+34);
+    }
+    // rodapé
+    x.fillStyle="#14181d"; x.fillRect(0,H-FOOT,W,FOOT);
+    x.fillStyle="#cfd6dd"; x.font="500 20px -apple-system,'Segoe UI',Arial";
+    x.textAlign="center";
+    x.fillText("Catálogo Digital Arte Cromo Estampas",W/2,H-FOOT/2+7);
+    return await new Promise(res=>cv.toBlob(b=>{
+      res(b?new File([b],"Pedido_ArteCromo.jpg",{type:"image/jpeg"}):null);
+    },"image/jpeg",0.92));
+  }catch(e){ return null; }
+}
+async function enviarCartao(texto,nome,fone,obs){
+  try{
+    if(!navigator.canShare) return false; // PC cai no wa.me com links
+    const cartao=await gerarCartaoPedido(nome,fone,obs);
+    if(!cartao || !navigator.canShare({files:[cartao]})) return false;
+    const dados=navigator.canShare({files:[cartao],text:texto})?{files:[cartao],text:texto}:{files:[cartao]};
+    await navigator.share(dados);
+    return true;
+  }catch(err){
+    if(err&&err.name==="AbortError") return true; // cliente fechou o menu — não duplicar
+    return false;
+  }
+}
 function _rastrearPedido(){
   try {
     if(typeof fbq !== 'undefined') fbq('track','Lead',{content_name:'Pedido WhatsApp',num_items:carrinho.length});
@@ -1098,10 +1185,13 @@ async function enviarWhatsApp(){
   const txtBtn=btn?btn.textContent:"";
   if(btn){ btn.disabled=true; btn.textContent="⏳ Preparando imagens…"; }
   try{
-    // 1) Celular: envia as IMAGENS anexadas + o pedido com os links na legenda
+    // 1) Celular: CARTÃO do pedido (imagem-resumo com as miniaturas) + texto
+    const okCartao=await enviarCartao(msg,nome,fone,obs);
+    if(okCartao){ _rastrearPedido(); fecharPedido(); return; }
+    // 2) Celular (fallback): fotos reais anexadas + pedido na legenda
     const okImgs=await enviarComImagens(msg);
     if(okImgs){ _rastrearPedido(); fecharPedido(); return; }
-    // 2) PC / sem suporte: WhatsApp com o pedido + link direto de cada imagem
+    // 3) PC / sem suporte: WhatsApp com o pedido + link direto de cada imagem
     window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
     _rastrearPedido();
   } finally {
