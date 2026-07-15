@@ -91,6 +91,12 @@ class Handler(SimpleHTTPRequestHandler):
         # Raiz = catálogo público (o painel admin continua em /login.html)
         if self.path in ('/', ''):
             self.path = '/catalogo_arte_cromo.html'
+        # Atalho fácil de lembrar: /admin ou /painel → tela de login do painel
+        if self.path in ('/admin', '/admin/', '/painel', '/painel/'):
+            self.send_response(302)
+            self.send_header('Location', '/login.html')
+            self.end_headers()
+            return
         # API config (protegida por token)
         if self.path == '/api/config':
             if not self._token_valido():
