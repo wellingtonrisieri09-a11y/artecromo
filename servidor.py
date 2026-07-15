@@ -88,12 +88,9 @@ class Handler(SimpleHTTPRequestHandler):
         pass  # silenciar logs
 
     def do_GET(self):
-        # Redirecionar raiz para login
+        # Raiz = catálogo público (o painel admin continua em /login.html)
         if self.path in ('/', ''):
-            self.send_response(302)
-            self.send_header('Location', '/login.html')
-            self.end_headers()
-            return
+            self.path = '/catalogo_arte_cromo.html'
         # API config (protegida por token)
         if self.path == '/api/config':
             if not self._token_valido():
