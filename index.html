@@ -8,314 +8,455 @@
 <meta property="og:title" content="Nanai Bolos e Doces">
 <meta property="og:description" content="Bolos sob encomenda para todas as comemorações. Peça pelo WhatsApp!">
 <meta property="og:type" content="website">
+<meta name="theme-color" content="#C64B82">
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yeseva+One&display=swap" rel="stylesheet">
 <style>
 :root{
-  --choc:#4A2B1E;
+  --choc:#3E2318;
   --choc-2:#6B4230;
-  --rosa:#E06A9C;
-  --rosa-forte:#C94F84;
+  --rosa:#E2679E;
+  --rosa-forte:#C64B82;
   --rosa-claro:#FBD9E7;
-  --creme:#FFF9F1;
+  --rosa-bebe:#FDEFF5;
+  --creme:#FFF7EE;
   --creme-2:#FCEDDF;
-  --dourado:#D4A853;
-  --verde-zap:#25D366;
-  --sombra:0 6px 24px rgba(74,43,30,.12);
-  --radius:18px;
+  --dourado:#D9A94F;
+  --dourado-claro:#F0D9A8;
+  --verde-zap:#22C15E;
+  --sombra:0 8px 28px rgba(62,35,24,.13);
+  --sombra-suave:0 4px 14px rgba(62,35,24,.08);
+  --radius:20px;
   font-size:16px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Poppins',system-ui,sans-serif;background:var(--creme);color:var(--choc);line-height:1.5}
-img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-h1,h2,.fonte-display{font-family:'Yeseva One',Georgia,serif;font-weight:400}
-
-/* ===== CAPA / HEADER ===== */
-.capa{
-  position:relative;
-  background:
-    radial-gradient(circle at 12% 20%, rgba(212,168,83,.28) 0 6px, transparent 7px),
-    radial-gradient(circle at 85% 30%, rgba(255,255,255,.25) 0 5px, transparent 6px),
-    radial-gradient(circle at 30% 75%, rgba(255,255,255,.18) 0 4px, transparent 5px),
-    radial-gradient(circle at 70% 80%, rgba(212,168,83,.25) 0 5px, transparent 6px),
-    radial-gradient(circle at 50% 15%, rgba(255,255,255,.2) 0 4px, transparent 5px),
-    linear-gradient(135deg,#C94F84 0%,#E06A9C 45%,#B0567F 100%);
-  padding:26px 16px 74px;
-  text-align:center;
-  color:#fff;
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,sans-serif;background:var(--creme);color:var(--choc);line-height:1.55;
+  background-image:
+    radial-gradient(rgba(226,103,158,.055) 1.6px, transparent 1.7px),
+    radial-gradient(rgba(217,169,79,.05) 1.4px, transparent 1.5px);
+  background-size:34px 34px, 52px 52px;
+  background-position:0 0, 17px 26px;
 }
-.capa::after{
-  content:"";position:absolute;left:0;right:0;bottom:-1px;height:26px;
-  background:var(--creme);
-  clip-path:ellipse(60% 100% at 50% 100%);
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+h1,h2,h3,.fonte-display{font-family:'Yeseva One',Georgia,serif;font-weight:400}
+h2{text-wrap:balance}
+
+/* ============ animação de entrada ============ */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .confete i{animation:none !important}
+  *{scroll-behavior:auto !important}
+}
+
+/* ============ CAPA ============ */
+.capa{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(255,255,255,.22), transparent 60%),
+    linear-gradient(150deg,#D4548C 0%,#E2679E 48%,#A94E78 100%);
+  padding:34px 16px 92px;text-align:center;color:#fff;
+}
+/* balões desenhados no fundo */
+.capa::before{
+  content:"";position:absolute;inset:0;opacity:.14;pointer-events:none;
+  background:
+    radial-gradient(ellipse 46px 56px at 12% 30%, #fff 60%, transparent 61%),
+    radial-gradient(ellipse 34px 42px at 88% 22%, #FFE3B3 60%, transparent 61%),
+    radial-gradient(ellipse 30px 38px at 78% 62%, #fff 60%, transparent 61%),
+    radial-gradient(ellipse 40px 50px at 6% 72%, #FFD9E8 60%, transparent 61%);
+}
+.confete{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confete i{
+  position:absolute;top:-14px;display:block;width:8px;height:13px;border-radius:2px;
+  animation:cair linear infinite;opacity:.85;
+}
+@keyframes cair{
+  0%{transform:translateY(-20px) rotate(0deg)}
+  100%{transform:translateY(115vh) rotate(660deg)}
 }
 .logo-wrap{
-  width:132px;height:132px;margin:0 auto 12px;border-radius:50%;
-  background:#fff;box-shadow:0 8px 28px rgba(74,43,30,.35);
+  width:148px;height:148px;margin:0 auto 14px;border-radius:50%;
+  background:#fff;box-shadow:0 10px 34px rgba(62,35,24,.35), 0 0 0 6px rgba(255,255,255,.25);
   padding:6px;position:relative;z-index:2;
 }
 .logo-wrap img,.logo-wrap svg{width:100%;height:100%;border-radius:50%;display:block}
-.capa h1{font-size:2rem;letter-spacing:1px;text-shadow:0 2px 8px rgba(74,43,30,.3)}
-.capa .tagline{font-size:.92rem;opacity:.95;margin-top:2px}
-.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;position:relative;z-index:2}
+.capa h1{font-size:2.15rem;letter-spacing:.5px;text-shadow:0 2px 10px rgba(62,35,24,.35);position:relative;z-index:2}
+.capa .tagline{font-size:.94rem;opacity:.96;margin-top:4px;position:relative;z-index:2}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;position:relative;z-index:2}
 .badge{
-  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);
-  backdrop-filter:blur(4px);padding:5px 13px;border-radius:999px;
-  font-size:.76rem;font-weight:600;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);
+  backdrop-filter:blur(4px);padding:6px 14px;border-radius:999px;
+  font-size:.76rem;font-weight:600;letter-spacing:.2px;
 }
-.badge.aberto{background:var(--verde-zap);border-color:var(--verde-zap)}
+.badge.aberto{background:var(--verde-zap);border-color:var(--verde-zap);box-shadow:0 4px 14px rgba(34,193,94,.45)}
+/* cobertura escorrendo (drip) na base da capa */
+.drip{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:64px;display:block;z-index:3}
 
-/* ===== OCASIÕES ===== */
-.ocasioes{max-width:860px;margin:-38px auto 0;padding:0 16px;position:relative;z-index:3}
+/* ============ FAIXA DE OCASIÕES ============ */
+.ocasioes{max-width:880px;margin:-46px auto 0;padding:0 16px;position:relative;z-index:6}
 .ocasioes-card{
   background:#fff;border-radius:var(--radius);box-shadow:var(--sombra);
-  padding:16px 14px;text-align:center;
+  padding:20px 16px 18px;text-align:center;position:relative;
 }
-.ocasioes-card p{font-size:.85rem;color:var(--choc-2);margin-bottom:10px}
-.ocasioes-card p strong{color:var(--rosa-forte)}
-.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ocasioes-card::before{
+  content:"";position:absolute;left:14px;right:14px;top:0;height:6px;border-radius:0 0 8px 8px;
+  background:repeating-linear-gradient(90deg,var(--rosa) 0 14px,var(--dourado-claro) 14px 28px,var(--rosa-claro) 28px 42px);
+}
+.ocasioes-card .eyebrow{font-size:.68rem;font-weight:700;letter-spacing:2.5px;color:var(--rosa-forte);text-transform:uppercase}
+.ocasioes-card h2{font-size:1.3rem;margin:4px 0 12px}
+.chips{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
 .chip{
-  background:var(--rosa-claro);color:var(--rosa-forte);font-weight:600;
-  font-size:.78rem;padding:6px 12px;border-radius:999px;
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(160deg,var(--rosa-bebe),#fff);
+  border:1.5px solid var(--rosa-claro);color:var(--rosa-forte);font-weight:600;
+  font-size:.8rem;padding:8px 14px;border-radius:999px;box-shadow:var(--sombra-suave);
 }
+.chip .em{font-size:1rem}
 
-/* ===== GALERIA DE DECORAÇÕES ===== */
-.galeria{max-width:860px;margin:22px auto 4px;padding:0 16px}
-.galeria h2{font-size:1.35rem;display:flex;align-items:center;gap:10px}
-.galeria h2::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--rosa-claro),transparent);border-radius:2px}
-.galeria .desc-galeria{font-size:.83rem;color:#9A7B66;margin:2px 0 12px}
+/* ============ TÍTULOS DE SEÇÃO ============ */
+.cabecalho-secao{text-align:center;margin:34px 0 6px}
+.cabecalho-secao .eyebrow{font-size:.68rem;font-weight:700;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase}
+.cabecalho-secao h2{font-size:1.5rem;color:var(--choc)}
+.cabecalho-secao .sub{font-size:.85rem;color:#9A7B66;max-width:520px;margin:4px auto 0;padding:0 8px}
+.florzinha{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;color:var(--rosa)}
+.florzinha::before,.florzinha::after{content:"";width:52px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--rosa-claro))}
+.florzinha::after{background:linear-gradient(90deg,var(--rosa-claro),transparent)}
+
+/* ============ GALERIA ============ */
+.galeria{max-width:880px;margin:0 auto;padding:0 16px}
 .trilho{
-  display:flex;gap:10px;overflow-x:auto;padding:4px 2px 14px;
+  display:flex;gap:14px;overflow-x:auto;padding:16px 6px 22px;
   scroll-snap-type:x mandatory;scrollbar-width:none;
 }
 .trilho::-webkit-scrollbar{display:none}
 .foto-bolo{
-  flex:0 0 46%;max-width:210px;scroll-snap-align:start;border-radius:16px;overflow:hidden;
-  box-shadow:var(--sombra);position:relative;aspect-ratio:3/4;background:var(--rosa-claro);
-  padding:0;border:none;
+  flex:0 0 47%;max-width:215px;scroll-snap-align:start;position:relative;
+  background:#fff;padding:8px 8px 30px;border-radius:6px;
+  box-shadow:0 6px 18px rgba(62,35,24,.16);
+  transform:rotate(-1.6deg);transition:transform .25s;
 }
-@media(min-width:640px){.foto-bolo{flex-basis:200px}}
-.foto-bolo img{width:100%;height:100%;object-fit:cover;transition:transform .25s}
-.foto-bolo:active img{transform:scale(1.05)}
+.foto-bolo:nth-child(2n){transform:rotate(1.7deg)}
+.foto-bolo:nth-child(3n){transform:rotate(-.6deg)}
+.foto-bolo:active{transform:scale(.97)}
+.foto-bolo::after{ /* fita adesiva */
+  content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%) rotate(-3deg);
+  width:64px;height:18px;background:rgba(217,169,79,.4);border-radius:2px;
+}
+.foto-bolo .molde{border-radius:4px;overflow:hidden;aspect-ratio:3/3.6;background:var(--rosa-bebe)}
+.foto-bolo img{width:100%;height:100%;object-fit:cover}
 .foto-bolo .legenda{
-  position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;
-  background:linear-gradient(transparent,rgba(46,24,14,.75));
-  color:#fff;font-size:.72rem;font-weight:600;text-align:left;
+  position:absolute;left:8px;right:8px;bottom:7px;text-align:center;
+  font-size:.7rem;font-weight:600;color:var(--choc-2);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.dica-galeria{font-size:.72rem;color:#B99A85;text-align:center;margin-top:-6px}
+.dica-galeria{font-size:.72rem;color:#B99A85;text-align:center;margin-top:-8px}
 
-/* lightbox */
-.lightbox{
-  position:fixed;inset:0;background:rgba(30,15,8,.92);z-index:200;display:none;
-  align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;
-}
-.lightbox.aberto{display:flex}
-.lightbox img{max-width:100%;max-height:78vh;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
-.lightbox .legenda-lb{color:#fff;font-size:.85rem;font-weight:600;text-align:center}
-.lightbox .fechar-lb{
-  position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;
-  background:rgba(255,255,255,.15);color:#fff;font-size:1.2rem;font-weight:700;
-}
-.lightbox .nav-lb{
-  position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
-  background:rgba(255,255,255,.15);color:#fff;font-size:1.3rem;font-weight:700;
-}
-.lightbox .ant{left:10px}.lightbox .prox{right:10px}
-
-/* ===== BUSCA + CATEGORIAS (sticky) ===== */
+/* ============ NAV FIXA ============ */
 .nav-fixa{
-  position:sticky;top:0;z-index:50;background:var(--creme);
-  padding:10px 0 0;box-shadow:0 4px 14px rgba(74,43,30,.06);
+  position:sticky;top:0;z-index:50;background:rgba(255,247,238,.94);backdrop-filter:blur(8px);
+  padding:10px 0 0;box-shadow:0 4px 16px rgba(62,35,24,.07);
+  border-top:5px solid transparent;
+  border-image:repeating-linear-gradient(90deg,var(--rosa) 0 16px,var(--dourado-claro) 16px 32px,var(--rosa-claro) 32px 48px) 1;
 }
-.busca{max-width:860px;margin:0 auto;padding:0 16px}
+.busca{max-width:880px;margin:0 auto;padding:0 16px;position:relative}
 .busca input{
-  width:100%;padding:12px 18px;border-radius:999px;border:2px solid var(--rosa-claro);
+  width:100%;padding:12px 18px 12px 44px;border-radius:999px;border:2px solid var(--rosa-claro);
   font-family:inherit;font-size:.95rem;background:#fff;color:var(--choc);outline:none;
-  transition:border-color .2s;
+  transition:border-color .2s, box-shadow .2s;
 }
-.busca input:focus{border-color:var(--rosa)}
+.busca input:focus{border-color:var(--rosa);box-shadow:0 0 0 4px rgba(226,103,158,.15)}
+.busca .lupa{position:absolute;left:32px;top:50%;transform:translateY(-50%);font-size:.95rem;opacity:.55}
 .cats{
   display:flex;gap:8px;overflow-x:auto;padding:10px 16px 12px;
-  max-width:860px;margin:0 auto;scrollbar-width:none;
+  max-width:880px;margin:0 auto;scrollbar-width:none;
 }
 .cats::-webkit-scrollbar{display:none}
 .cat-btn{
-  flex:0 0 auto;padding:8px 16px;border-radius:999px;font-size:.83rem;font-weight:600;
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:999px;font-size:.83rem;font-weight:600;
   background:#fff;color:var(--choc-2);border:1.5px solid #EADDD0;transition:.2s;
 }
-.cat-btn.ativa{background:var(--choc);color:#fff;border-color:var(--choc)}
-
-/* ===== CARDÁPIO ===== */
-main{max-width:860px;margin:0 auto;padding:8px 16px 140px}
-.secao{padding-top:18px}
-.secao h2{
-  font-size:1.35rem;color:var(--choc);margin-bottom:4px;
-  display:flex;align-items:center;gap:10px;
+.cat-btn.ativa{
+  background:linear-gradient(160deg,var(--rosa-forte),var(--rosa));color:#fff;border-color:transparent;
+  box-shadow:0 4px 14px rgba(198,75,130,.4);
 }
-.secao h2::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--rosa-claro),transparent);border-radius:2px}
-.secao .desc-secao{font-size:.83rem;color:#9A7B66;margin-bottom:14px}
-.grade{display:grid;grid-template-columns:1fr;gap:12px}
+
+/* ============ CARDÁPIO ============ */
+main{max-width:880px;margin:0 auto;padding:4px 16px 40px}
+.secao{padding-top:26px}
+.secao .titulo-cat{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+.secao .titulo-cat .icone-cat{
+  width:44px;height:44px;border-radius:14px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;font-size:1.35rem;
+  background:linear-gradient(160deg,var(--rosa-bebe),#fff);border:1.5px solid var(--rosa-claro);
+  box-shadow:var(--sombra-suave);
+}
+.secao h2{font-size:1.32rem;color:var(--choc)}
+.secao .desc-secao{font-size:.82rem;color:#9A7B66;margin:0 0 14px 56px}
+.secao .linha-doce{flex:1;height:8px;border-radius:8px;opacity:.5;
+  background:radial-gradient(circle at 4px 4px, var(--rosa-claro) 3px, transparent 3.5px);
+  background-size:14px 8px;background-repeat:repeat-x;background-position:left center;
+}
+.grade{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:640px){.grade{grid-template-columns:1fr 1fr}}
 
 .card{
-  display:flex;gap:12px;background:#fff;border-radius:var(--radius);
-  box-shadow:var(--sombra);padding:12px;align-items:center;
-  transition:transform .15s;text-align:left;width:100%;
+  position:relative;display:flex;gap:13px;background:#fff;border-radius:var(--radius);
+  box-shadow:var(--sombra-suave);padding:13px;align-items:center;
+  transition:transform .15s, box-shadow .15s;text-align:left;width:100%;
+  border:1.5px solid rgba(251,217,231,.6);
 }
 .card:active{transform:scale(.98)}
 .thumb{
-  flex:0 0 86px;width:86px;height:86px;border-radius:14px;overflow:hidden;
+  flex:0 0 92px;width:92px;height:92px;border-radius:16px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1.5px rgba(226,103,158,.18);
 }
 .thumb svg{width:100%;height:100%}
 .card-info{flex:1;min-width:0}
-.card-info h3{font-size:.98rem;font-weight:700;color:var(--choc)}
-.card-info p{font-size:.78rem;color:#9A7B66;margin:2px 0 6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.preco{font-weight:800;color:var(--rosa-forte);font-size:.95rem}
-.preco small{font-weight:500;color:#9A7B66;font-size:.72rem}
-.add-mini{
-  flex:0 0 auto;width:38px;height:38px;border-radius:12px;background:var(--rosa);
-  color:#fff;font-size:1.4rem;font-weight:700;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 12px rgba(224,106,156,.4);
+.card-info h3{font-size:1rem;font-weight:700;color:var(--choc);font-family:'Poppins',sans-serif}
+.card-info p{font-size:.77rem;color:#9A7B66;margin:2px 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.etiqueta-preco{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--rosa-bebe);border:1.5px dashed var(--rosa);border-radius:10px;
+  padding:3px 10px;font-weight:800;color:var(--rosa-forte);font-size:.86rem;
 }
+.etiqueta-preco small{font-weight:500;color:#B98AA0;font-size:.68rem}
+.add-mini{
+  flex:0 0 auto;width:40px;height:40px;border-radius:13px;
+  background:linear-gradient(160deg,var(--rosa),var(--rosa-forte));
+  color:#fff;font-size:1.45rem;font-weight:700;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 5px 14px rgba(198,75,130,.42);transition:transform .15s;
+}
+.card:active .add-mini{transform:scale(1.12)}
 
-/* ===== BOLO PERSONALIZADO CTA ===== */
+/* ============ COMO ENCOMENDAR ============ */
+.como{max-width:880px;margin:8px auto 0;padding:0 16px}
+.passos{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+@media(min-width:640px){.passos{grid-template-columns:1fr 1fr 1fr}}
+.passo{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--sombra-suave);
+  padding:20px 16px 18px;text-align:center;position:relative;border:1.5px solid rgba(251,217,231,.6);
+}
+.passo .num{
+  width:44px;height:44px;margin:0 auto 10px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--rosa), var(--rosa-forte));
+  color:#fff;font-weight:800;font-size:1.15rem;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 5px 14px rgba(198,75,130,.4), inset 0 -3px 0 rgba(0,0,0,.12);
+}
+.passo h3{font-size:1.02rem;margin-bottom:4px;font-family:'Poppins',sans-serif;font-weight:700}
+.passo p{font-size:.8rem;color:#9A7B66}
+.faixa-aviso{
+  margin:18px auto 0;max-width:640px;display:flex;gap:10px;align-items:center;
+  background:linear-gradient(160deg,#FFF6DE,#FFF1CE);border:1.5px solid var(--dourado-claro);
+  border-radius:14px;padding:12px 16px;font-size:.8rem;color:#7A5A1E;
+}
+.faixa-aviso .sino{font-size:1.3rem}
+
+/* ============ CTA PERSONALIZADO ============ */
+.cta-wrap{max-width:880px;margin:34px auto 0;padding:0 16px}
 .cta-personalizado{
-  margin-top:26px;border-radius:var(--radius);padding:22px 18px;text-align:center;color:#fff;
-  background:linear-gradient(135deg,var(--choc) 0%,var(--choc-2) 100%);
+  position:relative;overflow:hidden;border-radius:24px;padding:30px 20px;text-align:center;color:#fff;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(217,169,79,.22) 0 7px, transparent 8px),
+    radial-gradient(circle at 88% 26%, rgba(255,255,255,.14) 0 5px, transparent 6px),
+    radial-gradient(circle at 22% 82%, rgba(255,255,255,.10) 0 5px, transparent 6px),
+    radial-gradient(circle at 76% 78%, rgba(217,169,79,.18) 0 6px, transparent 7px),
+    linear-gradient(150deg,#4A2B1E 0%,#6B4230 100%);
   box-shadow:var(--sombra);
 }
-.cta-personalizado h2{font-size:1.25rem;color:var(--dourado);margin-bottom:6px}
-.cta-personalizado p{font-size:.85rem;opacity:.9;max-width:480px;margin:0 auto 14px}
+.cta-personalizado .eyebrow{font-size:.66rem;font-weight:700;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase}
+.cta-personalizado h2{font-size:1.5rem;color:#FFE9C9;margin:6px 0 8px}
+.cta-personalizado p{font-size:.86rem;opacity:.92;max-width:520px;margin:0 auto 18px}
 .btn-zap{
-  display:inline-flex;align-items:center;gap:8px;background:var(--verde-zap);color:#fff;
-  font-weight:700;font-size:.9rem;padding:12px 22px;border-radius:999px;text-decoration:none;
-  box-shadow:0 6px 18px rgba(37,211,102,.4);
+  display:inline-flex;align-items:center;gap:9px;background:var(--verde-zap);color:#fff;
+  font-weight:700;font-size:.93rem;padding:13px 26px;border-radius:999px;text-decoration:none;
+  box-shadow:0 8px 22px rgba(34,193,94,.45);transition:transform .15s;
 }
+.btn-zap:active{transform:scale(.97)}
 
-/* ===== RODAPÉ ===== */
-footer{background:var(--choc);color:var(--creme-2);text-align:center;padding:30px 16px 110px;margin-top:30px}
-footer .fonte-display{font-size:1.3rem;color:var(--dourado)}
-footer p{font-size:.8rem;opacity:.8;margin-top:6px}
+/* ============ RODAPÉ ============ */
+.rodape-wrap{margin-top:44px;position:relative}
+.scallop{display:block;width:100%;height:26px}
+footer{background:var(--choc);color:var(--creme-2);text-align:center;padding:26px 16px 120px}
+footer .fonte-display{font-size:1.45rem;color:var(--dourado)}
+footer .sub-rodape{font-size:.8rem;opacity:.85;margin-top:4px}
+footer .contatos{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+footer .contatos a{color:var(--dourado-claro);text-decoration:none;font-weight:600;font-size:.85rem}
+footer .mini{font-size:.7rem;opacity:.55;margin-top:18px}
 
-/* ===== BARRA CARRINHO FLUTUANTE ===== */
+/* ============ BARRA CARRINHO ============ */
 .barra-carrinho{
   position:fixed;left:12px;right:12px;bottom:12px;z-index:60;
-  background:var(--choc);color:#fff;border-radius:16px;padding:14px 18px;
+  background:linear-gradient(160deg,#4A2B1E,var(--choc));color:#fff;border-radius:18px;padding:15px 20px;
   display:none;align-items:center;justify-content:space-between;gap:10px;
-  box-shadow:0 10px 30px rgba(74,43,30,.4);width:auto;max-width:836px;margin:0 auto;
+  box-shadow:0 12px 34px rgba(62,35,24,.45);width:auto;max-width:856px;margin:0 auto;
+  border:1px solid rgba(217,169,79,.35);
 }
 .barra-carrinho.visivel{display:flex}
+.barra-carrinho.pulso{animation:pulso .45s ease}
+@keyframes pulso{0%{transform:scale(1)}35%{transform:scale(1.035)}100%{transform:scale(1)}}
 .barra-carrinho .qtd-bolinha{
-  background:var(--rosa);border-radius:8px;min-width:26px;height:26px;
-  display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;padding:0 6px;
+  background:var(--rosa);border-radius:10px;min-width:28px;height:28px;
+  display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;padding:0 7px;
+  box-shadow:0 3px 8px rgba(226,103,158,.5);
 }
 .barra-carrinho strong{font-size:1rem}
-.barra-carrinho span.ver{font-weight:700;color:var(--dourado);font-size:.9rem}
+.barra-carrinho span.ver{font-weight:700;color:var(--dourado);font-size:.92rem}
 
-/* ===== MODAIS ===== */
+/* toast */
+.toast{
+  position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(16px);z-index:70;
+  background:var(--choc);color:#fff;font-size:.85rem;font-weight:600;
+  padding:11px 20px;border-radius:999px;box-shadow:0 8px 24px rgba(62,35,24,.4);
+  opacity:0;pointer-events:none;transition:.3s;white-space:nowrap;
+}
+.toast.mostra{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============ MODAIS ============ */
 .overlay{
-  position:fixed;inset:0;background:rgba(46,24,14,.55);z-index:100;
-  display:none;align-items:flex-end;justify-content:center;
+  position:fixed;inset:0;background:rgba(42,20,11,.6);backdrop-filter:blur(2px);
+  z-index:100;display:none;align-items:flex-end;justify-content:center;
 }
 @media(min-width:640px){.overlay{align-items:center}}
 .overlay.aberto{display:flex}
 .modal{
-  background:var(--creme);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;
-  border-radius:24px 24px 0 0;padding:20px 18px 26px;position:relative;
-  animation:sobe .25s ease;
+  background:var(--creme);width:100%;max-width:540px;max-height:92vh;overflow-y:auto;
+  border-radius:26px 26px 0 0;padding:22px 18px 28px;position:relative;
+  animation:sobe .28s cubic-bezier(.2,.9,.3,1.1);
 }
-@media(min-width:640px){.modal{border-radius:24px}}
-@keyframes sobe{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(min-width:640px){.modal{border-radius:26px}}
+@keyframes sobe{from{transform:translateY(46px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:6px;border-radius:26px 26px 0 0;
+  background:repeating-linear-gradient(90deg,var(--rosa) 0 16px,var(--dourado-claro) 16px 32px,var(--rosa-claro) 32px 48px);
+}
 .fechar{
-  position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
+  position:absolute;top:16px;right:14px;width:36px;height:36px;border-radius:50%;
   background:var(--rosa-claro);color:var(--rosa-forte);font-size:1.1rem;font-weight:700;
   display:flex;align-items:center;justify-content:center;z-index:2;
 }
-.modal .thumb-grande{height:150px;border-radius:16px;overflow:hidden;margin-bottom:14px}
-.modal .thumb-grande svg{width:100%;height:100%}
-.modal h3{font-size:1.3rem;font-family:'Yeseva One',Georgia,serif;font-weight:400}
-.modal .desc{font-size:.85rem;color:#9A7B66;margin:4px 0 16px}
-.modal h4{font-size:.85rem;font-weight:700;margin:14px 0 8px;text-transform:uppercase;letter-spacing:.5px;color:var(--choc-2)}
-.opcao{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:#fff;border:2px solid #EADDD0;border-radius:14px;padding:12px 14px;margin-bottom:8px;
-  cursor:pointer;transition:border-color .15s;
+.modal .thumb-grande{
+  height:158px;border-radius:18px;overflow:hidden;margin-bottom:14px;
+  box-shadow:inset 0 0 0 1.5px rgba(226,103,158,.2);
 }
-.opcao.marcada{border-color:var(--rosa);background:#FFF3F8}
-.opcao .nome-op{font-size:.86rem;font-weight:600}
+.modal .thumb-grande svg{width:100%;height:100%}
+.modal h3{font-size:1.35rem}
+.modal .desc{font-size:.85rem;color:#9A7B66;margin:4px 0 16px}
+.modal h4{
+  font-size:.8rem;font-weight:700;margin:16px 0 8px;text-transform:uppercase;
+  letter-spacing:1.2px;color:var(--choc-2);display:flex;align-items:center;gap:8px;
+}
+.modal h4::after{content:"";flex:1;height:1.5px;background:var(--rosa-claro);border-radius:2px}
+.opcao{
+  position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;border:2px solid #EADDD0;border-radius:16px;padding:13px 14px;margin-bottom:9px;
+  cursor:pointer;transition:border-color .15s, background .15s;
+}
+.opcao.marcada{border-color:var(--rosa);background:var(--rosa-bebe)}
+.opcao .nome-op{font-size:.87rem;font-weight:700}
 .opcao .sub-op{font-size:.72rem;color:#9A7B66;display:block;font-weight:400}
-.opcao .preco-op{font-weight:800;color:var(--rosa-forte);font-size:.9rem;white-space:nowrap}
-.opcao input{accent-color:var(--rosa);width:18px;height:18px;flex:0 0 auto}
+.opcao .preco-op{font-weight:800;color:var(--rosa-forte);font-size:.92rem;white-space:nowrap}
+.opcao input{accent-color:var(--rosa-forte);width:19px;height:19px;flex:0 0 auto}
+.tag-op{
+  position:absolute;top:-9px;right:12px;background:var(--dourado);color:#fff;
+  font-size:.6rem;font-weight:700;letter-spacing:1px;padding:2px 9px;border-radius:999px;
+}
 textarea,.campo input,.campo select{
-  width:100%;background:#fff;border:2px solid #EADDD0;border-radius:14px;
-  padding:11px 14px;font-family:inherit;font-size:.9rem;color:var(--choc);outline:none;resize:vertical;
+  width:100%;background:#fff;border:2px solid #EADDD0;border-radius:15px;
+  padding:12px 14px;font-family:inherit;font-size:.9rem;color:var(--choc);outline:none;resize:vertical;
+  transition:border-color .15s;
 }
 textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
-.linha-final{display:flex;gap:10px;margin-top:18px;align-items:stretch}
+.linha-final{display:flex;gap:10px;margin-top:20px;align-items:stretch}
 .qtd-controle{
   display:flex;align-items:center;gap:4px;background:#fff;border:2px solid #EADDD0;
-  border-radius:14px;padding:4px;
+  border-radius:15px;padding:4px;
 }
-.qtd-controle button{width:36px;height:36px;font-size:1.2rem;font-weight:700;color:var(--rosa-forte);border-radius:10px}
+.qtd-controle button{width:38px;height:38px;font-size:1.25rem;font-weight:700;color:var(--rosa-forte);border-radius:11px}
 .qtd-controle button:active{background:var(--rosa-claro)}
 .qtd-controle span{min-width:26px;text-align:center;font-weight:700}
 .btn-principal{
-  flex:1;background:var(--rosa);color:#fff;font-weight:700;font-size:.92rem;
-  border-radius:14px;padding:12px;box-shadow:0 6px 18px rgba(224,106,156,.4);
-  display:flex;align-items:center;justify-content:center;gap:8px;
+  flex:1;background:linear-gradient(160deg,var(--rosa),var(--rosa-forte));color:#fff;font-weight:700;font-size:.93rem;
+  border-radius:15px;padding:13px;box-shadow:0 7px 20px rgba(198,75,130,.42);
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s;
 }
+.btn-principal:active{transform:scale(.98)}
 .btn-principal:disabled{opacity:.5;box-shadow:none}
 
 /* carrinho */
 .item-carrinho{
-  background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--sombra);
+  background:#fff;border-radius:16px;padding:13px 15px;margin-bottom:10px;box-shadow:var(--sombra-suave);
+  border:1.5px solid rgba(251,217,231,.6);
 }
 .item-carrinho .topo-item{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.item-carrinho h5{font-size:.9rem;font-weight:700}
+.item-carrinho h5{font-size:.92rem;font-weight:700}
 .item-carrinho .tam{font-size:.75rem;color:#9A7B66}
-.item-carrinho .obs-item{font-size:.73rem;color:var(--rosa-forte);font-style:italic;margin-top:2px}
+.item-carrinho .obs-item{font-size:.74rem;color:var(--rosa-forte);font-style:italic;margin-top:2px}
 .item-carrinho .rodape-item{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-.item-carrinho .preco-item{font-weight:800;color:var(--rosa-forte);font-size:.9rem}
+.item-carrinho .preco-item{font-weight:800;color:var(--rosa-forte);font-size:.92rem}
 .remover{color:#C0392B;font-size:.75rem;font-weight:600;text-decoration:underline}
 .total-linha{
-  display:flex;justify-content:space-between;font-size:1.05rem;font-weight:800;
-  padding:14px 4px;border-top:2px dashed #EADDD0;margin-top:6px;
+  display:flex;justify-content:space-between;font-size:1.08rem;font-weight:800;
+  padding:14px 4px;border-top:2px dashed #E3CDBB;margin-top:6px;
 }
-.campo{margin-bottom:10px}
+.campo{margin-bottom:11px}
 .campo label{font-size:.78rem;font-weight:700;color:var(--choc-2);display:block;margin-bottom:4px}
 .duas-colunas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.carrinho-vazio{text-align:center;padding:30px 10px;color:#9A7B66;font-size:.9rem}
-.carrinho-vazio .emoji{font-size:2.6rem;display:block;margin-bottom:8px}
+.carrinho-vazio{text-align:center;padding:34px 10px;color:#9A7B66;font-size:.9rem}
+.carrinho-vazio .emoji{font-size:2.8rem;display:block;margin-bottom:8px}
 .aviso-encomenda{
-  background:#FFF3D6;border:1.5px solid var(--dourado);border-radius:12px;
-  padding:10px 12px;font-size:.76rem;color:#7A5A1E;margin:12px 0;
+  background:linear-gradient(160deg,#FFF6DE,#FFF1CE);border:1.5px solid var(--dourado-claro);border-radius:13px;
+  padding:11px 13px;font-size:.76rem;color:#7A5A1E;margin:12px 0;
 }
+.btn-zap-envio{
+  width:100%;background:var(--verde-zap);box-shadow:0 7px 20px rgba(34,193,94,.42);
+  color:#fff;font-weight:700;font-size:.95rem;border-radius:15px;padding:14px;
+  display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .12s;
+}
+.btn-zap-envio:active{transform:scale(.98)}
+
+/* lightbox */
+.lightbox{
+  position:fixed;inset:0;background:rgba(30,13,6,.93);z-index:200;display:none;
+  align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;
+}
+.lightbox.aberto{display:flex}
+.lightbox img{max-width:100%;max-height:76vh;border-radius:16px;box-shadow:0 12px 44px rgba(0,0,0,.55)}
+.lightbox .legenda-lb{color:#fff;font-size:.88rem;font-weight:600;text-align:center}
+.lightbox .fechar-lb{
+  position:absolute;top:16px;right:16px;width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.14);color:#fff;font-size:1.2rem;font-weight:700;
+}
+.lightbox .nav-lb{
+  position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.14);color:#fff;font-size:1.35rem;font-weight:700;
+}
+.lightbox .ant{left:10px}.lightbox .prox{right:10px}
 </style>
 </head>
 <body>
 
 <!-- ===== CAPA ===== -->
 <header class="capa">
+  <div class="confete" id="confete" aria-hidden="true"></div>
   <div class="logo-wrap" role="img" aria-label="Logotipo Nanai Bolos e Doces"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Nanai Bolos e Doces — versão moderna do logotipo original:
-       fouet (batedor) sobre mancha rosa, com ramo de folhas no cabo -->
   <defs>
     <linearGradient id="blobGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#F6C3DE"/>
       <stop offset="1" stop-color="#EC9EC9"/>
     </linearGradient>
   </defs>
-
-  <!-- fundo -->
   <circle cx="256" cy="256" r="248" fill="#FFF9F1"/>
   <circle cx="256" cy="256" r="248" fill="none" stroke="#EC9EC9" stroke-width="4"/>
   <circle cx="256" cy="256" r="236" fill="none" stroke="#D4A853" stroke-width="1.8" stroke-dasharray="1 10" stroke-linecap="round"/>
-
-  <!-- mancha rosa orgânica -->
   <path d="M256 62
            c 62 -8 118 30 132 84
            c 13 50 -6 100 -46 126
@@ -323,7 +464,6 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
            c -36 -31 -46 -86 -24 -130
            c 18 -37 44 -66 80 -72 z"
         fill="url(#blobGrad)"/>
-  <!-- contorno desenhado à mão, levemente deslocado -->
   <path d="M262 74
            c 56 -6 106 28 118 76
            c 12 46 -6 92 -42 116
@@ -331,8 +471,6 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
            c -33 -29 -42 -79 -22 -119
            c 16 -34 42 -60 75 -66 z"
         fill="none" stroke="#5A342A" stroke-width="3" opacity=".55"/>
-
-  <!-- brilhos -->
   <g fill="#D4A853">
     <path d="M118 130 l 5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 z"/>
     <path d="M400 96 l 4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z"/>
@@ -343,24 +481,15 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
     <path d="M142 84 a7 7 0 0 1 14 0 c0 5 -7 10 -7 10 c0 0 -7 -5 -7 -10 z"/>
     <path d="M382 176 a6 6 0 0 1 12 0 c0 4 -6 9 -6 9 c0 0 -6 -5 -6 -9 z"/>
   </g>
-
-  <!-- fouet inclinado -->
   <g transform="rotate(34 256 200)" fill="none" stroke="#5A342A" stroke-linecap="round" stroke-linejoin="round">
-    <!-- balão: arames externos -->
     <path d="M256 92 C 198 122 192 212 254 262" stroke-width="11"/>
     <path d="M256 92 C 314 122 320 212 258 262" stroke-width="11"/>
-    <!-- laçadas internas -->
     <path d="M244 100 C 210 150 218 220 255 258" stroke-width="9"/>
     <path d="M268 100 C 302 150 294 220 257 258" stroke-width="9"/>
     <ellipse cx="256" cy="170" rx="26" ry="74" stroke-width="9"/>
-    <!-- anel de união -->
     <path d="M242 258 h28" stroke-width="12"/>
-    <!-- cabo -->
     <path d="M256 264 V 356" stroke-width="22"/>
-    <path d="M256 358 a10 10 0 0 0 0 0.1" stroke-width="22"/>
-    <!-- furinho do cabo -->
     <circle cx="256" cy="348" r="4.5" stroke-width="5"/>
-    <!-- ramo de folhas cruzando o cabo -->
     <g stroke-width="6">
       <path d="M216 330 C 240 310 276 300 300 302"/>
       <path d="M232 318 c -2 -14 8 -24 20 -26 c 4 12 -4 24 -20 26 z" fill="#5A342A" stroke="none"/>
@@ -369,40 +498,53 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
       <path d="M268 324 c 11 -7 22 -5 28 2 c -7 8 -20 7 -28 -2 z" fill="#5A342A" stroke="none"/>
     </g>
   </g>
-
-  <!-- nome -->
   <text x="256" y="416" text-anchor="middle" font-family="'Yeseva One',Georgia,'Times New Roman',serif" font-size="84" fill="#5A342A">Nanai</text>
   <text x="256" y="456" text-anchor="middle" font-family="Poppins,Verdana,Arial,sans-serif" font-size="24" font-weight="600" letter-spacing="7" fill="#B0567F">BOLOS E DOCES</text>
 </svg></div>
   <h1>Nanai Bolos e Doces</h1>
-  <p class="tagline">Bolos para festas · Sob encomenda com muito carinho</p>
+  <p class="tagline">Bolos para festas, feitos à mão, com muito carinho 💗</p>
   <div class="badges">
     <span class="badge aberto">● Aceitando encomendas</span>
-    <span class="badge">🎂 Bolos artesanais</span>
+    <span class="badge">🎂 Artesanal de verdade</span>
     <span class="badge">📱 Pedido pelo WhatsApp</span>
   </div>
+  <!-- cobertura escorrendo -->
+  <svg class="drip" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#FFF7EE" d="M0,34
+      C30,34 40,52 68,52 C96,52 100,20 132,20 C164,20 168,58 200,58 C232,58 238,30 270,30
+      C302,30 306,48 338,48 C370,48 376,16 410,16 C444,16 448,54 482,54 C516,54 520,28 554,28
+      C588,28 592,46 626,46 C660,46 666,18 700,18 C734,18 738,56 772,56 C806,56 810,26 844,26
+      C878,26 882,50 916,50 C950,50 956,14 990,14 C1024,14 1028,52 1062,52 C1096,52 1100,24 1134,24
+      C1168,24 1172,48 1206,48 C1240,48 1246,18 1280,18 C1314,18 1318,54 1352,54 C1386,54 1392,32 1440,32
+      L1440,64 L0,64 Z"/>
+  </svg>
 </header>
 
 <!-- ===== OCASIÕES ===== -->
-<section class="ocasioes">
+<section class="ocasioes reveal">
   <div class="ocasioes-card">
-    <p>Fazemos o bolo perfeito para a <strong>sua comemoração</strong>:</p>
+    <div class="eyebrow">Para todo momento especial</div>
+    <h2>Qual é a sua comemoração?</h2>
     <div class="chips">
-      <span class="chip">🎉 Aniversário</span>
-      <span class="chip">💍 Casamento</span>
-      <span class="chip">🎄 Natal</span>
-      <span class="chip">🥂 Ano Novo</span>
-      <span class="chip">👶 Chá de bebê</span>
-      <span class="chip">🎓 Formatura</span>
-      <span class="chip">💝 Toda ocasião!</span>
+      <span class="chip"><span class="em">🎉</span> Aniversário</span>
+      <span class="chip"><span class="em">💍</span> Casamento</span>
+      <span class="chip"><span class="em">🎄</span> Natal</span>
+      <span class="chip"><span class="em">🥂</span> Ano Novo</span>
+      <span class="chip"><span class="em">👶</span> Chá de bebê</span>
+      <span class="chip"><span class="em">🎓</span> Formatura</span>
+      <span class="chip"><span class="em">💝</span> Surpresas</span>
     </div>
   </div>
 </section>
 
-<!-- ===== GALERIA DE DECORAÇÕES ===== -->
+<!-- ===== GALERIA ===== -->
 <section class="galeria" id="galeria">
-  <h2>📸 Bolos que já saíram do nosso forno</h2>
-  <p class="desc-galeria">Decorações reais feitas pela Nanai — do tema da festa ao clássico com morangos. O seu pode ser o próximo!</p>
+  <div class="cabecalho-secao reveal">
+    <div class="eyebrow">Feitos pela Nanai</div>
+    <h2>Bolos que já saíram do nosso forno</h2>
+    <p class="sub">Cada festa pede um bolo diferente — do tema da criançada ao clássico com morangos. O seu pode ser o próximo!</p>
+    <div class="florzinha">🧁</div>
+  </div>
   <div class="trilho" id="trilhoGaleria"></div>
   <p class="dica-galeria">← deslize para ver mais · toque na foto para ampliar →</p>
 </section>
@@ -410,7 +552,8 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
 <!-- ===== BUSCA + CATEGORIAS ===== -->
 <div class="nav-fixa">
   <div class="busca">
-    <input type="search" id="campoBusca" placeholder="🔍 Buscar sabor... ex: ninho, brigadeiro" aria-label="Buscar sabor">
+    <span class="lupa">🔍</span>
+    <input type="search" id="campoBusca" placeholder="Buscar sabor... ex: ninho, brigadeiro" aria-label="Buscar sabor">
   </div>
   <nav class="cats" id="navCats" aria-label="Categorias"></nav>
 </div>
@@ -418,24 +561,69 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
 <!-- ===== CARDÁPIO ===== -->
 <main id="cardapio"></main>
 
+<!-- ===== COMO ENCOMENDAR ===== -->
+<section class="como reveal">
+  <div class="cabecalho-secao">
+    <div class="eyebrow">Simples assim</div>
+    <h2>Como encomendar</h2>
+    <div class="florzinha">🎀</div>
+  </div>
+  <div class="passos">
+    <div class="passo">
+      <div class="num">1</div>
+      <h3>Escolha o bolo</h3>
+      <p>Navegue pelo cardápio, escolha sabor e tamanho e monte seu pedido.</p>
+    </div>
+    <div class="passo">
+      <div class="num">2</div>
+      <h3>Envie pelo WhatsApp</h3>
+      <p>O pedido chega prontinho pra gente combinar data, entrega e pagamento.</p>
+    </div>
+    <div class="passo">
+      <div class="num">3</div>
+      <h3>Receba e comemore</h3>
+      <p>Seu bolo fresquinho, no capricho, no dia da sua festa. 🎉</p>
+    </div>
+  </div>
+  <div class="faixa-aviso">
+    <span class="sino">⏰</span>
+    <span><strong>Bolos sob encomenda:</strong> pedimos antecedência mínima de 48h para preparar o seu com todo carinho.</span>
+  </div>
+</section>
+
+<!-- ===== CTA PERSONALIZADO ===== -->
+<div class="cta-wrap reveal">
+  <div class="cta-personalizado">
+    <div class="eyebrow">Do seu jeito</div>
+    <h2>🎨 Bolo personalizado?</h2>
+    <p>Tema da festa, personagem favorito, decoração especial, casamento, número de andares... Conta pra gente a sua ideia que a Nanai faz o bolo dos seus sonhos!</p>
+    <a class="btn-zap" target="_blank" rel="noopener" id="linkOrcamento" href="#">💬 Pedir orçamento no WhatsApp</a>
+  </div>
+</div>
+
 <!-- ===== RODAPÉ ===== -->
-<footer>
-  <div class="fonte-display">Nanai Bolos e Doces</div>
-  <p>Bolos sob encomenda para festas e comemorações 🎂</p>
-  <p>
-    <a href="https://instagram.com/nanaibolos" target="_blank" rel="noopener" style="color:var(--dourado);text-decoration:none;font-weight:600">📷 @nanaibolos</a>
-    &nbsp;·&nbsp;
-    <a href="https://wa.me/5511951397856" target="_blank" rel="noopener" style="color:var(--dourado);text-decoration:none;font-weight:600">💬 (11) 95139-7856</a>
-  </p>
-  <p>Encomende com antecedência ⏰</p>
-</footer>
+<div class="rodape-wrap">
+  <svg class="scallop" viewBox="0 0 1440 26" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#3E2318" d="M0 26 L0 18 C40 18 40 4 80 4 C120 4 120 18 160 18 C200 18 200 4 240 4 C280 4 280 18 320 18 C360 18 360 4 400 4 C440 4 440 18 480 18 C520 18 520 4 560 4 C600 4 600 18 640 18 C680 18 680 4 720 4 C760 4 760 18 800 18 C840 18 840 4 880 4 C920 4 920 18 960 18 C1000 18 1000 4 1040 4 C1080 4 1080 18 1120 18 C1160 18 1160 4 1200 4 C1240 4 1240 18 1280 18 C1320 18 1320 4 1360 4 C1400 4 1400 18 1440 18 L1440 26 Z"/>
+  </svg>
+  <footer>
+    <div class="fonte-display">Nanai Bolos e Doces</div>
+    <p class="sub-rodape">Bolos sob encomenda para festas e comemorações 🎂</p>
+    <div class="contatos">
+      <a href="https://instagram.com/nanaibolos" target="_blank" rel="noopener">📷 @nanaibolos</a>
+      <a href="https://wa.me/5511951397856" target="_blank" rel="noopener">💬 (11) 95139-7856</a>
+    </div>
+    <p class="mini">Feito com 💗 e muita cobertura · Encomende com antecedência</p>
+  </footer>
+</div>
 
 <!-- ===== BARRA CARRINHO ===== -->
 <button class="barra-carrinho" id="barraCarrinho" onclick="abrirCarrinho()">
   <span class="qtd-bolinha" id="qtdBolinha">0</span>
-  <strong>Ver meu pedido</strong>
+  <strong>🧁 Ver meu pedido</strong>
   <span class="ver" id="totalBarra">R$ 0,00</span>
 </button>
+<div class="toast" id="toast">Adicionado ao pedido! 🎂</div>
 
 <!-- ===== LIGHTBOX GALERIA ===== -->
 <div class="lightbox" id="lightbox">
@@ -508,7 +696,7 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
         <label for="cliEndereco">Endereço de entrega</label>
         <input id="cliEndereco" type="text" placeholder="Rua, número, bairro, cidade">
       </div>
-      <button class="btn-principal" style="width:100%;background:var(--verde-zap);box-shadow:0 6px 18px rgba(37,211,102,.4)" onclick="enviarWhatsApp()">
+      <button class="btn-zap-envio" onclick="enviarWhatsApp()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.68-1.63-.93-2.23-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.3 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88M20.47 3.55A11.8 11.8 0 0 0 12.05 0C5.5 0 .16 5.33.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.33 11.89-11.89 0-3.18-1.24-6.16-3.47-8.4"/></svg>
         Enviar pedido pelo WhatsApp
       </button>
@@ -525,91 +713,93 @@ const CONFIG = {
   whatsapp: '5511951397856',
   tamanhos: [
     { id:'p', nome:'Aro 15 · pequeno',  sub:'±1,5 kg — serve ~15 fatias', preco:90  },
-    { id:'m', nome:'Aro 20 · médio',    sub:'±2,5 kg — serve ~25 fatias', preco:130 },
+    { id:'m', nome:'Aro 20 · médio',    sub:'±2,5 kg — serve ~25 fatias', preco:130, destaque:'MAIS PEDIDO' },
     { id:'g', nome:'Aro 25 · grande',   sub:'±3,5 kg — serve ~35 fatias', preco:170 },
   ],
 };
 
 /* ================================================================
-   🎂 CARDÁPIO — sabores por categoria (c1/c2 = cores da ilustração)
+   🎂 CARDÁPIO — sabores por categoria
+   c1/c2 = cores da ilustração · cob = cobertura desenhada
+   (morango, abacaxi, coco, oreo, pacoca, bombom, ameixa, cereja)
    ================================================================ */
 const CARDAPIO = [
   {
     id:'classicos', emoji:'🍫', nome:'Clássicos',
     desc:'Os queridinhos que nunca saem de moda.',
     sabores:[
-      { id:'brigadeiro',       nome:'Brigadeiro',                 desc:'Massa fofinha recheada com brigadeiro cremoso e cobertura de chocolate com granulado.', c1:'#6B4230', c2:'#4A2B1E' },
-      { id:'brig-morango',     nome:'Brigadeiro com Morango',     desc:'Brigadeiro cremoso com morangos frescos — a dupla perfeita.', c1:'#6B4230', c2:'#D9455F' },
-      { id:'prestigio',        nome:'Prestígio',                  desc:'Chocolate com recheio cremoso de coco, inspirado no doce clássico.', c1:'#4A2B1E', c2:'#F4EFE6' },
-      { id:'prestigio-ouro',   nome:'Prestígio com Ouro Branco',  desc:'Coco cremoso com pedaças de bombom Ouro Branco — irresistível.', c1:'#F4EFE6', c2:'#D4A853' },
-      { id:'sensacao',         nome:'Sensação',                   desc:'Mousse de chocolate com morango, inspirado no bombom Sensação.', c1:'#8A3350', c2:'#6B4230' },
+      { id:'brigadeiro',     nome:'Brigadeiro',                desc:'Massa fofinha recheada com brigadeiro cremoso e cobertura de chocolate com granulado.', c1:'#6B4230', c2:'#4A2B1E', cob:'cereja' },
+      { id:'brig-morango',   nome:'Brigadeiro com Morango',    desc:'Brigadeiro cremoso com morangos frescos — a dupla perfeita.', c1:'#6B4230', c2:'#B03A52', cob:'morango' },
+      { id:'prestigio',      nome:'Prestígio',                 desc:'Chocolate com recheio cremoso de coco, inspirado no doce clássico.', c1:'#4A2B1E', c2:'#8A5A3B', cob:'coco' },
+      { id:'prestigio-ouro', nome:'Prestígio com Ouro Branco', desc:'Coco cremoso com pedaços de bombom Ouro Branco — irresistível.', c1:'#F1E3CE', c2:'#D9A94F', cob:'bombom' },
+      { id:'sensacao',       nome:'Sensação',                  desc:'Mousse de chocolate com morango, inspirado no bombom Sensação.', c1:'#7E3049', c2:'#5A2B3B', cob:'morango' },
     ]
   },
   {
     id:'ninho', emoji:'🥛', nome:'Linha Ninho',
     desc:'Recheio de Leite Ninho cremoso combinado do jeito que você ama.',
     sabores:[
-      { id:'ninho',          nome:'Leite Ninho',           desc:'Recheio suave e cremoso de Leite Ninho puro — clássico e delicado.', c1:'#FFF3DC', c2:'#EBC77E' },
-      { id:'ninho-morango',  nome:'Ninho com Morango',     desc:'Creme de Ninho com morangos frescos — o mais pedido!', c1:'#FFF3DC', c2:'#D9455F' },
-      { id:'ninho-oreo',     nome:'Ninho com Oreo',        desc:'Creme de Ninho com pedaços crocantes de biscoito Oreo.', c1:'#FFF3DC', c2:'#3B2B26' },
-      { id:'ninho-abacaxi',  nome:'Ninho com Abacaxi',     desc:'Creme de Ninho com abacaxi docinho — leve e refrescante.', c1:'#FFF3DC', c2:'#E8C24A' },
-      { id:'ninho-pacoca',   nome:'Ninho com Paçoca',      desc:'Creme de Ninho com paçoca — combinação brasileiríssima.', c1:'#FFF3DC', c2:'#C79A4B' },
-      { id:'ninho-choc',     nome:'Ninho com Chocolate',   desc:'O contraste perfeito: Ninho cremoso com chocolate intenso.', c1:'#FFF3DC', c2:'#6B4230' },
-      { id:'ninho-bombons',  nome:'Ninho com Bombons',     desc:'Creme de Ninho recheado com pedaços de bombons variados.', c1:'#FFF3DC', c2:'#B0567F' },
+      { id:'ninho',         nome:'Leite Ninho',         desc:'Recheio suave e cremoso de Leite Ninho puro — clássico e delicado.', c1:'#FFF3DC', c2:'#EBC77E', cob:'cereja' },
+      { id:'ninho-morango', nome:'Ninho com Morango',   desc:'Creme de Ninho com morangos frescos — o mais pedido!', c1:'#FFF3DC', c2:'#D06A80', cob:'morango' },
+      { id:'ninho-oreo',    nome:'Ninho com Oreo',      desc:'Creme de Ninho com pedaços crocantes de biscoito Oreo.', c1:'#FFF3DC', c2:'#4B4B4B', cob:'oreo' },
+      { id:'ninho-abacaxi', nome:'Ninho com Abacaxi',   desc:'Creme de Ninho com abacaxi docinho — leve e refrescante.', c1:'#FFF3DC', c2:'#E3B23C', cob:'abacaxi' },
+      { id:'ninho-pacoca',  nome:'Ninho com Paçoca',    desc:'Creme de Ninho com paçoca — combinação brasileiríssima.', c1:'#FFF3DC', c2:'#C08A4E', cob:'pacoca' },
+      { id:'ninho-choc',    nome:'Ninho com Chocolate', desc:'O contraste perfeito: Ninho cremoso com chocolate intenso.', c1:'#FFF3DC', c2:'#6B4230', cob:'cereja' },
+      { id:'ninho-bombons', nome:'Ninho com Bombons',   desc:'Creme de Ninho recheado com pedaços de bombons variados.', c1:'#FFF3DC', c2:'#A05A78', cob:'bombom' },
     ]
   },
   {
     id:'doce-leite', emoji:'🍮', nome:'Mousse de Doce de Leite',
     desc:'Mousse aerado de doce de leite com combinações especiais.',
     sabores:[
-      { id:'ddl-abacaxi', nome:'Mousse de Doce de Leite com Abacaxi',       desc:'Doce de leite aerado com abacaxi — doçura na medida.', c1:'#E0A96D', c2:'#E8C24A' },
-      { id:'ddl-coco',    nome:'Mousse de Doce de Leite com Côco',          desc:'Mousse de doce de leite com coco fresquinho.', c1:'#E0A96D', c2:'#F4EFE6' },
-      { id:'ddl-sonho',   nome:'Mousse de Doce de Leite com Sonho de Valsa',desc:'Com pedaços do bombom Sonho de Valsa — puro carinho.', c1:'#E0A96D', c2:'#8A3350' },
-      { id:'ddl-ameixa',  nome:'Mousse de Doce de Leite com Ameixa',        desc:'O clássico das festas: doce de leite com ameixa.', c1:'#E0A96D', c2:'#5B3A5E' },
+      { id:'ddl-abacaxi', nome:'Mousse de Doce de Leite com Abacaxi',        desc:'Doce de leite aerado com abacaxi — doçura na medida.', c1:'#E0A96D', c2:'#C98B4B', cob:'abacaxi' },
+      { id:'ddl-coco',    nome:'Mousse de Doce de Leite com Côco',           desc:'Mousse de doce de leite com coco fresquinho.', c1:'#E0A96D', c2:'#B87F42', cob:'coco' },
+      { id:'ddl-sonho',   nome:'Mousse de Doce de Leite com Sonho de Valsa', desc:'Com pedaços do bombom Sonho de Valsa — puro carinho.', c1:'#E0A96D', c2:'#8A3350', cob:'bombom' },
+      { id:'ddl-ameixa',  nome:'Mousse de Doce de Leite com Ameixa',         desc:'O clássico das festas: doce de leite com ameixa.', c1:'#E0A96D', c2:'#5B3A5E', cob:'ameixa' },
     ]
   },
   {
     id:'creme-belga', emoji:'🍨', nome:'Creme Belga',
     desc:'Creme belga sedoso, feito com muito capricho.',
     sabores:[
-      { id:'belga-abacaxi', nome:'Creme Belga com Abacaxi', desc:'Creme belga aveludado com abacaxi — leve e elegante.', c1:'#FFF6E0', c2:'#E8C24A' },
-      { id:'belga-morango', nome:'Creme Belga com Morango', desc:'Creme belga com morangos frescos — sofisticado e delicioso.', c1:'#FFF6E0', c2:'#D9455F' },
-      { id:'belga-coco',    nome:'Creme Belga com Côco',    desc:'Creme belga com coco — suave, cremoso e irresistível.', c1:'#FFF6E0', c2:'#F4EFE6' },
+      { id:'belga-abacaxi', nome:'Creme Belga com Abacaxi', desc:'Creme belga aveludado com abacaxi — leve e elegante.', c1:'#FFF6E0', c2:'#E3B23C', cob:'abacaxi' },
+      { id:'belga-morango', nome:'Creme Belga com Morango', desc:'Creme belga com morangos frescos — sofisticado e delicioso.', c1:'#FFF6E0', c2:'#D06A80', cob:'morango' },
+      { id:'belga-coco',    nome:'Creme Belga com Côco',    desc:'Creme belga com coco — suave, cremoso e irresistível.', c1:'#FFF6E0', c2:'#E8D3B0', cob:'coco' },
     ]
   },
   {
     id:'especiais', emoji:'✨', nome:'Especiais',
-    desc:'Criações exclusivas da Nanai Bolus.',
+    desc:'Criações exclusivas da Nanai.',
     sabores:[
-      { id:'ovomaltine', nome:'Mousse de Chocolate com Ovomaltine', desc:'Mousse de chocolate com a crocância inconfundível do Ovomaltine.', c1:'#6B4230', c2:'#C79A4B' },
+      { id:'ovomaltine', nome:'Mousse de Chocolate com Ovomaltine', desc:'Mousse de chocolate com a crocância inconfundível do Ovomaltine.', c1:'#6B4230', c2:'#C08A4E', cob:'pacoca' },
     ]
   },
 ];
 
 /* ================================================================
-   📸 GALERIA — fotos reais dos bolos (arquivos em img/fotos/)
+   📸 GALERIA — fotos reais (arquivos em img/fotos/)
    ================================================================ */
 const GALERIA = [
-  { arq:'morango-chantilly.jpeg',        leg:'Chantilly com morangos e calda' },
-  { arq:'morango-chocolate-branco.jpeg', leg:'Morango com chocolate branco' },
-  { arq:'vintage-lacos-vermelhos.jpeg',  leg:'Vintage com laços vermelhos' },
-  { arq:'rosa-vintage-glitter.jpeg',     leg:'Rosa vintage com glitter' },
+  { arq:'morango-chantilly.jpeg',        leg:'Chantilly com morangos' },
+  { arq:'morango-chocolate-branco.jpeg', leg:'Morango e chocolate branco' },
+  { arq:'vintage-lacos-vermelhos.jpeg',  leg:'Vintage com laços' },
+  { arq:'rosa-vintage-glitter.jpeg',     leg:'Rosa vintage glitter' },
   { arq:'borboletas-glitter.jpeg',       leg:'Borboletas coloridas' },
-  { arq:'flores-borboletas.jpeg',        leg:'Flores e borboletas douradas' },
-  { arq:'branco-dourado.jpeg',           leg:'Branco com detalhes dourados' },
-  { arq:'verde-laco-dourado.jpeg',       leg:'Verde com fitas douradas' },
+  { arq:'flores-borboletas.jpeg',        leg:'Flores e borboletas' },
+  { arq:'branco-dourado.jpeg',           leg:'Branco e dourado' },
+  { arq:'verde-laco-dourado.jpeg',       leg:'Verde com fitas' },
   { arq:'princesas.jpeg',                leg:'Tema Princesas' },
   { arq:'ladybug.jpeg',                  leg:'Tema Ladybug' },
   { arq:'homem-aranha.jpeg',             leg:'Tema Homem-Aranha' },
   { arq:'pokemon.jpeg',                  leg:'Tema Pokémon' },
   { arq:'one-piece.jpeg',                leg:'Tema One Piece' },
   { arq:'estressadinha-verde.jpeg',      leg:'Tema Estressadinha' },
-  { arq:'estressadinha-vermelho.jpeg',   leg:'Tema Estressadinha glitter' },
-  { arq:'estressadinha-glitter.jpeg',    leg:'Tema Estressadinha degradê' },
+  { arq:'estressadinha-vermelho.jpeg',   leg:'Estressadinha glitter' },
+  { arq:'estressadinha-glitter.jpeg',    leg:'Estressadinha degradê' },
   { arq:'branca-de-neve.jpeg',           leg:'Tema Branca de Neve' },
   { arq:'capivara.jpeg',                 leg:'Tema Capivara' },
   { arq:'futebol-cr7.jpeg',              leg:'Tema Futebol CR7' },
-  { arq:'futebol-spfc.jpeg',             leg:'Tema Futebol São Paulo' },
+  { arq:'futebol-spfc.jpeg',             leg:'Tema São Paulo FC' },
   { arq:'pescaria.jpeg',                 leg:'Tema Pescaria' },
   { arq:'cha-revelacao.jpeg',            leg:'Chá revelação' },
   { arq:'mesversario-fazendinha.jpeg',   leg:'Mesversário fazendinha' },
@@ -617,47 +807,59 @@ const GALERIA = [
   { arq:'natal.jpeg',                    leg:'Especial de Natal' },
   { arq:'ano-novo.jpeg',                 leg:'Especial de Ano Novo' },
 ];
-let fotoAtual = 0;
-function renderGaleria(){
-  document.getElementById('trilhoGaleria').innerHTML = GALERIA.map((f,i)=>`
-    <button class="foto-bolo" onclick="abrirLightbox(${i})" aria-label="Ampliar: ${f.leg}">
-      <img src="img/fotos/${f.arq}" alt="Bolo: ${f.leg}" loading="lazy">
-      <span class="legenda">${f.leg}</span>
-    </button>`).join('');
-}
-function abrirLightbox(i){
-  fotoAtual = i;
-  document.getElementById('lightboxImg').src = 'img/fotos/' + GALERIA[i].arq;
-  document.getElementById('lightboxLegenda').textContent = GALERIA[i].leg;
-  document.getElementById('lightbox').classList.add('aberto');
-  document.body.style.overflow = 'hidden';
-}
-function navegarLightbox(d){
-  abrirLightbox((fotoAtual + d + GALERIA.length) % GALERIA.length);
-}
-function fecharLightbox(){
-  document.getElementById('lightbox').classList.remove('aberto');
-  document.body.style.overflow = '';
-}
-document.getElementById('lightbox').addEventListener('click', e=>{
-  if(e.target.id==='lightbox') fecharLightbox();
-});
 
-/* ============ ilustração de bolo por sabor ============ */
-function bolinhoSVG(c1, c2){
+/* ============ ilustração: bolo com cobertura por sabor ============ */
+function coberturaSVG(tipo){
+  switch(tipo){
+    case 'morango': return `
+      <g><path d="M40 24 c0 -7 12 -7 12 0 c0 6 -6 10 -6 10 c0 0 -6 -4 -6 -10 z" fill="#D9455F"/>
+      <path d="M43.5 21 l2.5 -4 2.5 4 z" fill="#6FA06B"/>
+      <path d="M56 27 c0 -6 10 -6 10 0 c0 5 -5 8 -5 8 c0 0 -5 -3 -5 -8 z" fill="#D9455F"/>
+      <path d="M59 24.5 l2 -3.5 2 3.5 z" fill="#6FA06B"/></g>`;
+    case 'abacaxi': return `
+      <g><circle cx="46" cy="27" r="7" fill="#F2CB4E"/><circle cx="46" cy="27" r="3" fill="#E3B23C"/>
+      <circle cx="60" cy="29" r="5.5" fill="#F2CB4E"/><circle cx="60" cy="29" r="2.3" fill="#E3B23C"/></g>`;
+    case 'coco': return `
+      <g fill="#FFFDF8" stroke="#E8DCC8" stroke-width=".8">
+      <path d="M42 25 a5 5 0 0 1 8 2 a5 5 0 0 1 -8 -2z"/><path d="M54 28 a5 5 0 0 1 8 1 a5 5 0 0 1 -8 -1z"/>
+      <path d="M48 31 a4 4 0 0 1 7 1 a4 4 0 0 1 -7 -1z"/></g>`;
+    case 'oreo': return `
+      <g><circle cx="47" cy="27" r="7" fill="#3B2B26"/><circle cx="47" cy="27" r="4.6" fill="none" stroke="#241914" stroke-width="1.4"/>
+      <circle cx="61" cy="30" r="4.6" fill="#3B2B26"/><path d="M56.5 30 a4.6 4.6 0 0 1 9 0z" fill="#FFFDF8"/></g>`;
+    case 'pacoca': return `
+      <g fill="#C08A4E"><rect x="40" y="24" width="10" height="7" rx="2" transform="rotate(-8 45 27)"/>
+      <rect x="55" y="27" width="9" height="6" rx="2" transform="rotate(10 59 30)"/>
+      <circle cx="52" cy="24" r="1.6" fill="#A06E38"/><circle cx="64" cy="24" r="1.4" fill="#A06E38"/></g>`;
+    case 'bombom': return `
+      <g><path d="M44 23 l8 3 -8 3 c1.5 -2 1.5 -4 0 -6z" fill="#D9A94F"/>
+      <circle cx="55" cy="27" r="5.5" fill="#8A3350"/><path d="M52 25 a4 4 0 0 1 5 -1" stroke="#C9738F" stroke-width="1.4" fill="none"/>
+      <path d="M63 26 l-7 2.6 7 2.6 c-1.4 -1.8 -1.4 -3.4 0 -5.2z" fill="#D9A94F"/></g>`;
+    case 'ameixa': return `
+      <g><ellipse cx="47" cy="27" rx="6" ry="4.6" fill="#5B3A5E"/><path d="M44 24.5 a4 3 0 0 1 5 -.8" stroke="#8A6390" stroke-width="1.2" fill="none"/>
+      <ellipse cx="60" cy="30" rx="4.8" ry="3.8" fill="#5B3A5E"/></g>`;
+    default: return `
+      <g><circle cx="50" cy="24" r="4.5" fill="#C0394F"/><path d="M50 20 q3 -5 7 -5" stroke="#6FA06B" stroke-width="1.6" fill="none"/>
+      <circle cx="61" cy="29" r="3.2" fill="#C0394F"/></g>`;
+  }
+}
+function bolinhoSVG(c1, c2, cob){
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" fill="#FBD9E7" opacity="0.5"/>
-    <rect width="100" height="100" fill="url(#none)"/>
-    <circle cx="14" cy="16" r="3" fill="#E06A9C" opacity=".35"/>
-    <circle cx="88" cy="24" r="2.5" fill="#D4A853" opacity=".5"/>
-    <circle cx="80" cy="82" r="3" fill="#E06A9C" opacity=".3"/>
-    <ellipse cx="50" cy="83" rx="34" ry="4.5" fill="#D4A853"/>
-    <rect x="22" y="52" width="56" height="30" rx="5" fill="${c2}"/>
-    <rect x="30" y="30" width="40" height="24" rx="4" fill="${c1}"/>
-    <path d="M30 34 q0 -4 4 -4 h32 q4 0 4 4 v2 c0 6 -5 6 -5 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 5 -5 5 -5 -1 z" fill="${c2}"/>
-    <path d="M22 56 q0 -4 4 -4 h48 q4 0 4 4 v2 c0 7 -6 7 -6 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 6 -6 6 -6 -1 z" fill="${c1}"/>
-    <rect x="47" y="14" width="6" height="18" rx="2.5" fill="#FFF9F1" stroke="#E8B4C8" stroke-width="1.5"/>
-    <path d="M50 4 c4 5 4 9 0 11 c-4 -2 -4 -6 0 -11 z" fill="#D4A853"/>
+    <rect width="100" height="100" fill="#FDEFF5"/>
+    <circle cx="13" cy="14" r="3" fill="#E2679E" opacity=".3"/>
+    <circle cx="88" cy="22" r="2.4" fill="#D9A94F" opacity=".55"/>
+    <circle cx="83" cy="84" r="2.8" fill="#E2679E" opacity=".3"/>
+    <rect x="14" y="10" width="6" height="2.2" rx="1" fill="#D9A94F" opacity=".5" transform="rotate(24 17 11)"/>
+    <rect x="76" y="66" width="6" height="2.2" rx="1" fill="#E2679E" opacity=".4" transform="rotate(-18 79 67)"/>
+    <ellipse cx="50" cy="84" rx="35" ry="4.5" fill="#D9A94F"/>
+    <ellipse cx="50" cy="82.5" rx="35" ry="4" fill="#EBC77E"/>
+    <rect x="21" y="52" width="58" height="30" rx="5" fill="${c2}"/>
+    <rect x="29" y="30" width="42" height="24" rx="4" fill="${c1}"/>
+    <path d="M29 34 q0 -4 4 -4 h34 q4 0 4 4 v2 c0 6 -5 6 -5 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 7 -6 7 -6 1 c0 5 -5 5 -5 -1 z" fill="${c2}"/>
+    <path d="M21 56 q0 -4 4 -4 h50 q4 0 4 4 v2 c0 7 -6 7 -6 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 8 -7 8 -7 1 c0 6 -6 6 -6 -1 z" fill="${c1}"/>
+    <g fill="#fff" opacity=".5">
+      <circle cx="30" cy="72" r="1.6"/><circle cx="42" cy="75" r="1.6"/><circle cx="55" cy="72" r="1.6"/><circle cx="68" cy="75" r="1.6"/>
+    </g>
+    ${coberturaSVG(cob)}
   </svg>`;
 }
 
@@ -668,7 +870,48 @@ let produtoAtual = null, tamanhoAtual = null, qtdAtual = 1;
 const TODOS = CARDAPIO.flatMap(c => c.sabores.map(s => ({...s, cat:c.id})));
 const menorPreco = Math.min(...CONFIG.tamanhos.map(t=>t.preco));
 
-/* ============ render do cardápio ============ */
+/* ============ confete da capa ============ */
+(function(){
+  const cores = ['#FFE3B3','#FFF','#FBD9E7','#D9A94F','#FFD9E8','#F6C3DE'];
+  const wrap = document.getElementById('confete');
+  let html = '';
+  for(let i=0;i<16;i++){
+    const left = (i*6.4 + (i%3)*1.7) % 100;
+    const dur = 6 + (i%5)*1.4;
+    const delay = -(i*0.9);
+    const cor = cores[i%cores.length];
+    const w = 6 + (i%3)*2;
+    html += `<i style="left:${left}%;background:${cor};width:${w}px;height:${w+5}px;animation-duration:${dur}s;animation-delay:${delay}s"></i>`;
+  }
+  wrap.innerHTML = html;
+})();
+
+/* ============ galeria ============ */
+let fotoAtual = 0;
+function renderGaleria(){
+  document.getElementById('trilhoGaleria').innerHTML = GALERIA.map((f,i)=>`
+    <button class="foto-bolo" onclick="abrirLightbox(${i})" aria-label="Ampliar: ${f.leg}">
+      <span class="molde"><img src="img/fotos/${f.arq}" alt="Bolo: ${f.leg}" loading="lazy"></span>
+      <span class="legenda">${f.leg}</span>
+    </button>`).join('');
+}
+function abrirLightbox(i){
+  fotoAtual = i;
+  document.getElementById('lightboxImg').src = 'img/fotos/' + GALERIA[i].arq;
+  document.getElementById('lightboxLegenda').textContent = GALERIA[i].leg;
+  document.getElementById('lightbox').classList.add('aberto');
+  document.body.style.overflow = 'hidden';
+}
+function navegarLightbox(d){ abrirLightbox((fotoAtual + d + GALERIA.length) % GALERIA.length); }
+function fecharLightbox(){
+  document.getElementById('lightbox').classList.remove('aberto');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', e=>{
+  if(e.target.id==='lightbox') fecharLightbox();
+});
+
+/* ============ cardápio ============ */
 function renderCardapio(filtro=''){
   const f = filtro.trim().toLowerCase();
   const main = document.getElementById('cardapio');
@@ -676,31 +919,29 @@ function renderCardapio(filtro=''){
     const sabores = cat.sabores.filter(s=>!f || s.nome.toLowerCase().includes(f) || s.desc.toLowerCase().includes(f));
     if(!sabores.length) return '';
     return `<section class="secao" id="sec-${cat.id}">
-      <h2>${cat.emoji} ${cat.nome}</h2>
+      <div class="titulo-cat">
+        <span class="icone-cat">${cat.emoji}</span>
+        <h2>${cat.nome}</h2>
+        <span class="linha-doce"></span>
+      </div>
       <p class="desc-secao">${cat.desc}</p>
       <div class="grade">${sabores.map(s=>`
-        <button class="card" onclick="abrirProduto('${s.id}')">
-          <div class="thumb">${bolinhoSVG(s.c1,s.c2)}</div>
-          <div class="card-info">
+        <button class="card reveal in" onclick="abrirProduto('${s.id}')">
+          <span class="thumb">${bolinhoSVG(s.c1,s.c2,s.cob)}</span>
+          <span class="card-info">
             <h3>${s.nome}</h3>
             <p>${s.desc}</p>
-            <div class="preco">a partir de ${fmt(menorPreco)} <small>· 3 tamanhos</small></div>
-          </div>
+            <span class="etiqueta-preco">a partir de ${fmt(menorPreco)} <small>· 3 tamanhos</small></span>
+          </span>
           <span class="add-mini">+</span>
         </button>`).join('')}
       </div>
     </section>`;
-  }).join('') + `
-    <div class="cta-personalizado">
-      <h2>🎨 Bolo personalizado?</h2>
-      <p>Tema de festa, decoração especial, casamento, número de andares... Conta pra gente a sua ideia que a Nanai faz o bolo dos seus sonhos!</p>
-      <a class="btn-zap" target="_blank" rel="noopener" href="https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Olá, Nanai! 🎂 Quero um orçamento de bolo personalizado.')}">💬 Pedir orçamento</a>
-    </div>`;
+  }).join('');
   if(f && !main.querySelector('.secao')){
-    main.insertAdjacentHTML('afterbegin',`<div class="carrinho-vazio"><span class="emoji">🔍</span>Nenhum sabor encontrado para "<strong>${filtro}</strong>".</div>`);
+    main.innerHTML = `<div class="carrinho-vazio"><span class="emoji">🔍</span>Nenhum sabor encontrado para "<strong>${filtro}</strong>".<br>Tente "ninho", "morango", "chocolate"...</div>`;
   }
 }
-
 function renderCats(){
   const nav = document.getElementById('navCats');
   nav.innerHTML = CARDAPIO.map((c,i)=>
@@ -722,13 +963,14 @@ function abrirProduto(id){
   produtoAtual = TODOS.find(s=>s.id===id);
   tamanhoAtual = CONFIG.tamanhos[1] || CONFIG.tamanhos[0];
   qtdAtual = 1;
-  document.getElementById('modalThumb').innerHTML = bolinhoSVG(produtoAtual.c1, produtoAtual.c2);
+  document.getElementById('modalThumb').innerHTML = bolinhoSVG(produtoAtual.c1, produtoAtual.c2, produtoAtual.cob);
   document.getElementById('modalNome').textContent = produtoAtual.nome;
   document.getElementById('modalDesc').textContent = produtoAtual.desc;
   document.getElementById('modalObs').value = '';
   document.getElementById('modalQtd').textContent = '1';
   document.getElementById('modalTamanhos').innerHTML = CONFIG.tamanhos.map(t=>`
     <label class="opcao${t.id===tamanhoAtual.id?' marcada':''}">
+      ${t.destaque?`<span class="tag-op">⭐ ${t.destaque}</span>`:''}
       <input type="radio" name="tam" value="${t.id}" ${t.id===tamanhoAtual.id?'checked':''} onchange="escolherTamanho('${t.id}')">
       <span style="flex:1"><span class="nome-op">${t.nome}</span><span class="sub-op">${t.sub}</span></span>
       <span class="preco-op">${fmt(t.preco)}</span>
@@ -764,18 +1006,30 @@ function adicionarAoCarrinho(){
     qtd: qtdAtual,
     obs: document.getElementById('modalObs').value.trim(),
   });
-  salvar(); fecharProduto(); atualizarBarra();
+  salvar(); fecharProduto(); atualizarBarra(true);
+  mostrarToast('Adicionado ao pedido! 🎂');
+}
+function mostrarToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('mostra');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('mostra'), 2200);
 }
 
 /* ============ carrinho ============ */
 function salvar(){ localStorage.setItem('nanai_carrinho', JSON.stringify(carrinho)); }
 function totalCarrinho(){ return carrinho.reduce((s,i)=>s+i.preco*i.qtd,0); }
-function atualizarBarra(){
+function atualizarBarra(pulso){
   const barra = document.getElementById('barraCarrinho');
   const n = carrinho.reduce((s,i)=>s+i.qtd,0);
   barra.classList.toggle('visivel', n>0);
   document.getElementById('qtdBolinha').textContent = n;
   document.getElementById('totalBarra').textContent = fmt(totalCarrinho());
+  if(pulso){
+    barra.classList.remove('pulso'); void barra.offsetWidth;
+    barra.classList.add('pulso');
+  }
 }
 function abrirCarrinho(){
   renderCarrinho();
@@ -845,15 +1099,27 @@ function enviarWhatsApp(){
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
-/* ============ busca + init ============ */
+/* ============ animação de entrada ============ */
+const io = ('IntersectionObserver' in window) ? new IntersectionObserver(ents=>{
+  ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12}) : null;
+function observarReveals(){
+  if(!io){ document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')); return; }
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
+}
+
+/* ============ init ============ */
 document.getElementById('campoBusca').addEventListener('input', e=>renderCardapio(e.target.value));
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click', e=>{
   if(e.target===o){ o.classList.remove('aberto'); document.body.style.overflow=''; }
 }));
+document.getElementById('linkOrcamento').href =
+  `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent('Olá, Nanai! 🎂 Quero um orçamento de bolo personalizado.')}`;
 renderGaleria();
 renderCats();
 renderCardapio();
 atualizarBarra();
+observarReveals();
 </script>
 </body>
 </html>
