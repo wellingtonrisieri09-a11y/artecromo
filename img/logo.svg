@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Nanai Bolos e Doces — versão moderna do logotipo original:
+       fouet (batedor) sobre mancha rosa, com ramo de folhas no cabo -->
+  <defs>
+    <linearGradient id="blobGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F6C3DE"/>
+      <stop offset="1" stop-color="#EC9EC9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- fundo -->
+  <circle cx="256" cy="256" r="248" fill="#FFF9F1"/>
+  <circle cx="256" cy="256" r="248" fill="none" stroke="#EC9EC9" stroke-width="4"/>
+  <circle cx="256" cy="256" r="236" fill="none" stroke="#D4A853" stroke-width="1.8" stroke-dasharray="1 10" stroke-linecap="round"/>
+
+  <!-- mancha rosa orgânica -->
+  <path d="M256 62
+           c 62 -8 118 30 132 84
+           c 13 50 -6 100 -46 126
+           c -42 27 -104 25 -142 -8
+           c -36 -31 -46 -86 -24 -130
+           c 18 -37 44 -66 80 -72 z"
+        fill="url(#blobGrad)"/>
+  <!-- contorno desenhado à mão, levemente deslocado -->
+  <path d="M262 74
+           c 56 -6 106 28 118 76
+           c 12 46 -6 92 -42 116
+           c -38 25 -95 23 -129 -7
+           c -33 -29 -42 -79 -22 -119
+           c 16 -34 42 -60 75 -66 z"
+        fill="none" stroke="#5A342A" stroke-width="3" opacity=".55"/>
+
+  <!-- brilhos -->
+  <g fill="#D4A853">
+    <path d="M118 130 l 5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5 z"/>
+    <path d="M400 96 l 4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z"/>
+    <circle cx="396" cy="248" r="4"/>
+    <circle cx="106" cy="228" r="4"/>
+  </g>
+  <g fill="#EC9EC9">
+    <path d="M142 84 a7 7 0 0 1 14 0 c0 5 -7 10 -7 10 c0 0 -7 -5 -7 -10 z"/>
+    <path d="M382 176 a6 6 0 0 1 12 0 c0 4 -6 9 -6 9 c0 0 -6 -5 -6 -9 z"/>
+  </g>
+
+  <!-- fouet inclinado -->
+  <g transform="rotate(34 256 200)" fill="none" stroke="#5A342A" stroke-linecap="round" stroke-linejoin="round">
+    <!-- balão: arames externos -->
+    <path d="M256 92 C 198 122 192 212 254 262" stroke-width="11"/>
+    <path d="M256 92 C 314 122 320 212 258 262" stroke-width="11"/>
+    <!-- laçadas internas -->
+    <path d="M244 100 C 210 150 218 220 255 258" stroke-width="9"/>
+    <path d="M268 100 C 302 150 294 220 257 258" stroke-width="9"/>
+    <ellipse cx="256" cy="170" rx="26" ry="74" stroke-width="9"/>
+    <!-- anel de união -->
+    <path d="M242 258 h28" stroke-width="12"/>
+    <!-- cabo -->
+    <path d="M256 264 V 356" stroke-width="22"/>
+    <path d="M256 358 a10 10 0 0 0 0 0.1" stroke-width="22"/>
+    <!-- furinho do cabo -->
+    <circle cx="256" cy="348" r="4.5" stroke-width="5"/>
+    <!-- ramo de folhas cruzando o cabo -->
+    <g stroke-width="6">
+      <path d="M216 330 C 240 310 276 300 300 302"/>
+      <path d="M232 318 c -2 -14 8 -24 20 -26 c 4 12 -4 24 -20 26 z" fill="#5A342A" stroke="none"/>
+      <path d="M258 306 c -2 -13 7 -22 19 -24 c 3 11 -4 22 -19 24 z" fill="#5A342A" stroke="none"/>
+      <path d="M240 336 c 12 -8 24 -6 30 2 c -8 9 -22 8 -30 -2 z" fill="#5A342A" stroke="none"/>
+      <path d="M268 324 c 11 -7 22 -5 28 2 c -7 8 -20 7 -28 -2 z" fill="#5A342A" stroke="none"/>
+    </g>
+  </g>
+
+  <!-- nome -->
+  <text x="256" y="416" text-anchor="middle" font-family="'Yeseva One',Georgia,'Times New Roman',serif" font-size="84" fill="#5A342A">Nanai</text>
+  <text x="256" y="456" text-anchor="middle" font-family="Poppins,Verdana,Arial,sans-serif" font-size="24" font-weight="600" letter-spacing="7" fill="#B0567F">BOLOS E DOCES</text>
+</svg>
