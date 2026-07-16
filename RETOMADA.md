@@ -53,6 +53,20 @@ O Claude NÃO tem SSH direto (porta 22 bloqueada no sandbox). A execução no VP
    (aparece no fim do resultado 001) como Deploy key do repo topfood, e então
    voltar OS DOIS repos a PRIVADO.**
 
+## ⚠️ BLOQUEIO ATUAL (16/07, ~01:40 UTC)
+O deploy do Arte Cromo (deploy_vps.sh) TRAVOU 2x rodando pela ponte (causa
+desconhecida; sem log — o runner antigo só publica no fim do lote). O runner
+segura um flock, então a ponte fica presa até um REBOOT do VPS.
+Estado: fila enxuta (005y blindagem c/ timeout de 25min + 005z religar topfood);
+006/007 foram REMOVIDOS da fila. AGUARDANDO o Wellington apertar "Reiniciar VPS"
+no hPanel (2º reboot). Depois do reboot:
+1. Resultados 005y/005z chegam em ~3 min (confirmar topfood no ar).
+2. Re-enfileirar o deploy como 008 (bash /opt/claude-agente/repo/deploy_vps.sh)
+   — agora sob timeout; se travar, o .out parcial mostra ONDE (diagnosticar!).
+3. Depois: 009 atualizar artecromo (git pull) p/ cartao do pedido no site.
+NOTA: cartao do pedido WhatsApp foi RECONSTRUIDO e commitado (template+catalogo).
+TopFood estava NO AR antes do 2º reboot pendente; 005z o religa.
+
 ## Fila de tarefas (ordem)
 1. Confirmar Top Food no ar (http/https://topfoodembalagens.com.br). Corrigir erros se houver (usar a ponte).
 2. Deploy key do topfood + voltar os 2 repos a privado.
