@@ -36,15 +36,38 @@ Tudo fica no bloco `CONFIG` no início do `<script>` dentro de `index.html`:
    `img/fotos/`. Para adicionar uma foto nova, coloque o arquivo na pasta e
    acrescente uma linha `{ arq:'nome.jpeg', leg:'Legenda' }`.
 
-## 🚀 Publicar
+## 🚀 Publicar na VPS (mesmo padrão dos outros sites)
 
-É um site estático — qualquer hospedagem serve (GitHub Pages, Vercel, Netlify,
-ou o mesmo servidor dos outros sites com nginx). Basta servir a pasta.
+Site 100% estático — o nginx serve a pasta direto, **sem processo Node/pm2**.
+O repositório já traz a infraestrutura no padrão do servidor
+(ver `SERVIDOR.md` do TopFood):
 
-Para testar local:
+| Item | Valor |
+|------|-------|
+| Pasta na VPS | `/var/www/nanaibolos` |
+| Processo | nenhum (estático) |
+| Porta provisória | `8090` (acesso por IP) |
+| Link provisório | `http://srv1716345.hstgr.cloud` |
+| nginx | `nginx/nanaibolos.conf` |
+| Auto-deploy | `deploy.sh` (cron, só puxa o git — não reinicia nada) |
+
+### Montagem (colar UMA vez no terminal da VPS)
 
 ```bash
-npx serve .
-# ou
-python3 -m http.server 8000
+cd /var/www && \
+git clone git@github.com:wellingtonrisieri09-a11y/-criador-modelo.git nanaibolos && \
+cd nanaibolos && git checkout claude/nanai-bolus-website-f5pwte && \
+sudo cp nginx/nanaibolos.conf /etc/nginx/sites-available/nanaibolos && \
+sudo ln -sf /etc/nginx/sites-available/nanaibolos /etc/nginx/sites-enabled/nanaibolos && \
+sudo nginx -t && sudo systemctl reload nginx && \
+( crontab -l 2>/dev/null; echo "4-59/4 * * * * /var/www/nanaibolos/deploy.sh >> /var/log/nanaibolos-deploy.log 2>&1" ) | crontab - && \
+echo "✅ Nanai no ar: http://srv1716345.hstgr.cloud"
 ```
+
+### Quando comprar o domínio
+
+1. Aponte o registro **A** do domínio para o IP da VPS (`2.25.151.19`)
+2. O `server_name` já está pronto no conf — só emitir o HTTPS:
+   `sudo certbot --nginx -d nanaibolos.com.br -d www.nanaibolos.com.br`
+
+Para testar local: `python3 -m http.server 8000`
