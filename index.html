@@ -224,7 +224,7 @@ main{max-width:880px;margin:0 auto;padding:4px 16px 40px}
 .card-info h3{font-size:1rem;font-weight:700;color:var(--choc);font-family:'Poppins',sans-serif}
 .card-info p{font-size:.77rem;color:#9A7B66;margin:2px 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .etiqueta-preco{
-  display:inline-flex;align-items:center;gap:6px;
+  display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:100%;
   background:var(--rosa-bebe);border:1.5px dashed var(--rosa);border-radius:10px;
   padding:3px 10px;font-weight:800;color:var(--rosa-forte);font-size:.86rem;
 }
@@ -422,6 +422,23 @@ textarea:focus,.campo input:focus,.campo select:focus{border-color:var(--rosa)}
   display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .12s;
 }
 .btn-zap-envio:active{transform:scale(.98)}
+
+/* ============ telas bem pequenas (até 374px) ============ */
+@media(max-width:374px){
+  .capa h1{font-size:1.8rem}
+  .capa .tagline{font-size:.86rem}
+  .logo-wrap{width:126px;height:126px}
+  .thumb{flex:0 0 74px;width:74px;height:74px;border-radius:13px}
+  .card{gap:10px;padding:11px}
+  .card-info h3{font-size:.92rem}
+  .add-mini{width:34px;height:34px;border-radius:10px;font-size:1.25rem}
+  .etiqueta-preco{font-size:.78rem;padding:2px 8px}
+  .secao .desc-secao{margin-left:0}
+  .foto-bolo{flex-basis:62%}
+  .cabecalho-secao h2{font-size:1.3rem}
+  .barra-carrinho{padding:13px 15px}
+  .barra-carrinho strong{font-size:.9rem}
+}
 
 /* lightbox */
 .lightbox{
