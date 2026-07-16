@@ -61,6 +61,19 @@ fi
 # Branch publicada (quando o site for para a main, troque aqui)
 BRANCH=claude/nanai-bolus-website-f5pwte
 
+# --- diagnóstico: publica o estado do deploy em /status.txt do site ---
+{ echo "atualizado em: $(date '+%F %T')"
+  echo "commit atual: $(git rev-parse --short HEAD 2>/dev/null)"
+  echo "bloco 443 no nginx: $(grep -c 'listen 443' /etc/nginx/sites-available/nanaibolos 2>/dev/null || echo 0)"
+  echo "certificado: $([ -f /etc/letsencrypt/live/srv1716345.hstgr.cloud/fullchain.pem ] && echo existe || echo nao-existe)"
+  echo "== ultimas linhas do deploy =="
+  tail -n 25 /var/log/nanaibolos-deploy.log 2>/dev/null
+  echo "== certbot =="
+  tail -n 15 /var/log/nanaibolos-certbot.log 2>/dev/null
+  echo "== nginx-t =="
+  tail -n 15 /var/log/nanaibolos-https.log 2>/dev/null
+} > /var/www/nanaibolos/status.txt 2>/dev/null || true
+
 BEFORE=$(git rev-parse HEAD)
 git fetch origin "$BRANCH" --quiet
 AFTER=$(git rev-parse "origin/$BRANCH")
